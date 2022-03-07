@@ -34,6 +34,7 @@
     redshift
     xclip
     unzip
+    arandr
 
     pandoc
     texlive.combined.scheme-full
@@ -61,12 +62,19 @@
     rust-analyzer
     texlab
     bear
+    cmake
+    boost
 
     # Fonts/Theme
     (nerdfonts.override { fonts = [ "Hack" ]; })
     iosevka
     noto-fonts-emoji
     papirus-icon-theme
+
+    # Fun
+    sl
+    asciiquarium
+    pipes
   ];
 
   imports = [ ./programs ];

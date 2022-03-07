@@ -4,7 +4,7 @@
     windowManager.bspwm = {
       enable = true;
 
-      monitors = { eDP-1 = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" ]; };
+      monitors = { eDP-1-1 = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" ]; };
 
       settings = {
         border_width = 1;
@@ -27,11 +27,12 @@
       };
 
       startupPrograms = [
-        "feh --bg-fill ~/Pictures/tiger.jpg"
+        "feh --bg-fill ~/Pictures/ror2.jpg"
         "spotify"
         "discord"
         "thunderbird"
         "flameshot"
+        "slack"
       ];
     };
   };

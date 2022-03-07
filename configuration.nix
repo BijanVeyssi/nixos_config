@@ -16,7 +16,7 @@
     efiSupport = true;
     enableCryptodisk = true;
   };
-  
+
   boot.initrd.luks.devices.cryptroot = {
     device =  "/dev/disk/by-uuid/4b660283-112e-4534-a673-ac3d2e9a53ef";
       preLVM = true;
@@ -59,22 +59,26 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver = {
-    layout = "us";
-    desktopManager.xterm.enable = false;
-    displayManager.defaultSession = "none+i3";
-    windowManager.i3 = {
-      package = pkgs.i3-gaps;
-      enable = true;
-      extraPackages = with pkgs; [
-        dmenu
-        i3status
-      ];
+  services.xserver.displayManager.startx.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.windowManager.bspwm.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" "modsetting" ];
+
+  hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_390;
+    prime = {
+      sync.enable = true;
+      nvidiaBusId = "PCI:1:0:0";
+      intelBusId = "PCI:0:2:0";
     };
+    modesetting.enable = true;
   };
 
-
-  
+  # Configure keymap in X11
+  services.xserver.layout = "us";
+  services.xserver.xkbOptions = "caps:swapescape";
+  services.xserver.autoRepeatDelay = 220;
+  services.xserver.autoRepeatInterval = 35;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";

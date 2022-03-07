@@ -1,7 +1,7 @@
 {
   programs.git = {
     enable = true;
-    userEmail = "timothee.desveaux@epita.fr";
-    userName = "Timothee Desveaux";
+    userEmail = "bijan.veyssi-galmiche@epita.fr";
+    userName = "bijan.veyssi-galmiche";
   };
 }
