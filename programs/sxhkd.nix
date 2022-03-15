@@ -60,9 +60,12 @@
 
       # Invoke screenshot utility
       "Print" = "flameshot gui";
+      "super + shift + s" = "flameshot gui";
 
       # Dual scren
       "super + p" = "~/.scripts/monitor_layout.sh";
+
+      "shift + alt" = "~/.scripts/keyboard_layout.sh";
     };
   };
 }

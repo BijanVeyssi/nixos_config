@@ -64,6 +64,9 @@
     bear
     cmake
     boost
+    openssl.out
+    openssl.dev
+    libev
 
     # Fonts/Theme
     (nerdfonts.override { fonts = [ "Hack" ]; })
@@ -75,6 +78,7 @@
     sl
     asciiquarium
     pipes
+    steam
   ];
 
   imports = [ ./programs ];
