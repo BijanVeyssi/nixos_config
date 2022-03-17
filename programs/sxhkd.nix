@@ -65,7 +65,7 @@
       # Dual scren
       "super + p" = "~/.scripts/monitor_layout.sh";
 
-      "shift + alt" = "~/.scripts/keyboard_layout.sh";
+      "super + space" = "~/.scripts/keyboard_layout.sh";
     };
   };
 }

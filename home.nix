@@ -38,6 +38,9 @@
 
     pandoc
     texlive.combined.scheme-full
+    fira
+    fira-mono
+    fira-code
 
     # Apps
     discord
