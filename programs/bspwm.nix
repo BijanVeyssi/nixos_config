@@ -20,6 +20,7 @@
         "discord".desktop = "9";
         "Thunderbird".desktop = "8";
         "Slack".desktop = "7";
+        "firefox".desktop = "1";
 
         "Font-manager".state = "floating";
         "Pavucontrol".state = "floating";
@@ -33,6 +34,7 @@
         "thunderbird"
         "flameshot"
         "slack"
+        "firefox"
       ];
     };
   };
