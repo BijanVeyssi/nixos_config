@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
@@ -62,7 +62,7 @@
   services.xserver.displayManager.startx.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.windowManager.bspwm.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" "modsetting" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.opengl.driSupport32Bit = true;
   hardware.opengl.enable = true;
@@ -73,7 +73,7 @@
       nvidiaBusId = "PCI:1:0:0";
       intelBusId = "PCI:0:2:0";
     };
-    modesetting.enable = true;
+    modesetting.enable = false;
   };
 
   # Configure keymap in X11
