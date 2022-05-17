@@ -29,10 +29,6 @@
     '';
   };
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   networking.hostName = "Bijan-Nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
