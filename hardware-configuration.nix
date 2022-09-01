@@ -14,7 +14,7 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/ca8c10fa-d402-4adf-9e21-048f2ab49a7b";
+    { device = "/dev/disk/by-uuid/33a5e9db-1db5-474e-a985-9a4f027ef7b8";
       fsType = "ext4";
     };
 
@@ -24,8 +24,9 @@
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/7aac5623-e8f0-4d21-968f-da5bbbed4949"; }
+    [ { device = "/dev/disk/by-uuid/e73b1edb-196c-4e2d-8d64-047644d70574"; }
     ];
+
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

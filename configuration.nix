@@ -18,7 +18,7 @@
   };
 
   boot.initrd.luks.devices.cryptroot = {
-    device =  "/dev/disk/by-uuid/4b660283-112e-4534-a673-ac3d2e9a53ef";
+    device = "/dev/disk/by-uuid/a7193cac-39d2-446f-9d0e-d5f502e3b5da";
       preLVM = true;
   };
 
