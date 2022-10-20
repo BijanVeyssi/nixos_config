@@ -62,6 +62,7 @@
 
     # Dev
     gcc
+    gdb
     gnumake
     neovim
     nixfmt
@@ -77,6 +78,7 @@
     openssl.out
     openssl.dev
     libev
+    cargo
 
     # Fonts/Theme
     (nerdfonts.override { fonts = [ "Hack" ]; })

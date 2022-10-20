@@ -28,8 +28,11 @@
     shellAliases = {
       gl = "git log --all --decorate --oneline --graph --color=always";
       gs = "git status -s";
+      gsw = "git switch";
 
       zathura = "zathura --fork";
+
+      nix-shell = "nix-shell --command fish";
 
       rm = "rm -I";
       mv = "mv -i";
