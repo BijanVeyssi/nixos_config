@@ -88,6 +88,21 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  services.jack = {
+    jackd.enable = true;
+    # support ALSA only programs via ALSA JACK PCM plugin
+    alsa.enable = false;
+    # support ALSA only programs via loopback device (supports programs like Steam)
+    loopback = {
+      enable = true;
+      # buffering parameters for dmix device to work with ALSA only semi-professional sound programs
+      #dmixConfig = ''
+      #  period_size 2048
+      #'';
+    };
+  };
+
+  users.extraUsers.bijan.extraGroups = [ "jackaudio" ];
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
@@ -108,6 +123,7 @@
     networkmanagerapplet
     networkmanager
     firefox
+    pavucontrol
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -145,5 +161,7 @@
   system.stateVersion = "21.11"; # Did you read the comment?
 
   nixpkgs.config.allowUnfree = true;
+
+ # Enable jack audio
 }
 
