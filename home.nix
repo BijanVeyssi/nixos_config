@@ -80,6 +80,16 @@
     libev
     cargo
 
+    # Formatters and language servers
+    nixpkgs-fmt
+    nodePackages.bash-language-server
+    nodePackages.pyright
+    rust-analyzer
+    rustfmt
+    stylua
+    sumneko-lua-language-server
+    texlab
+
     # Fonts/Theme
     (nerdfonts.override { fonts = [ "Hack" ]; })
     iosevka
