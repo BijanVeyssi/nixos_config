@@ -35,7 +35,7 @@ colors: fonts:
     foreground = colors.foreground;
 
     modules-left = "bspwm right space xkeyboard";
-    modules-center = "left previous spotify next right";
+    modules-center = "";
     modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left";
 
     tray-detached = false;
@@ -54,7 +54,7 @@ colors: fonts:
 
     font = fonts.big;
 
-    monitor = "HDMI-0";
+    monitor = "eDP-1-1";
     monitor-strict = false;
     bottom = false;
     fixed-center = true;
@@ -71,7 +71,7 @@ colors: fonts:
     foreground = colors.foreground;
 
     modules-left = "bspwm right space";
-    modules-center = "left previous spotify next right";
+    modules-center = "";
     modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left";
 
     tray-detached = false;
@@ -107,8 +107,8 @@ colors: fonts:
     foreground = colors.foreground;
 
     modules-left = "bspwm right space";
-    modules-center = "left previous spotify next right";
-    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left";
+    modules-center = "";
+    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space";
 
     scroll-up = "#bspwm.prev";
     scroll-down = "#bspwm.next";
@@ -121,7 +121,7 @@ colors: fonts:
 
     font = fonts.small;
 
-    monitor = "eDP-1-1";
+    monitor = "HDMI-0";
     monitor-strict = false;
     bottom = true;
     fixed-center = true;
@@ -139,7 +139,7 @@ colors: fonts:
 
     modules-left = "bspwm right";
     modules-center = "";
-    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left";
+    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space";
 
     scroll-up = "#bspwm.prev";
     scroll-down = "#bspwm.next";
