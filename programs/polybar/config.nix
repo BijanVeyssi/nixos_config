@@ -18,7 +18,7 @@ colors: fonts:
 
     font = fonts.small;
 
-    monitor = "eDP-1";
+    monitor = "eDP-1-1";
     monitor-strict = false;
     bottom = false;
     fixed-center = true;
@@ -36,7 +36,7 @@ colors: fonts:
 
     modules-left = "bspwm right space xkeyboard";
     modules-center = "left previous spotify next right";
-    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left battery-two right space left";
+    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left";
 
     tray-detached = false;
     tray-maxsize = 20;
@@ -54,7 +54,7 @@ colors: fonts:
 
     font = fonts.big;
 
-    monitor = "HDMI-2";
+    monitor = "HDMI-0";
     monitor-strict = false;
     bottom = false;
     fixed-center = true;
@@ -72,7 +72,7 @@ colors: fonts:
 
     modules-left = "bspwm right space";
     modules-center = "left previous spotify next right";
-    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left battery-two right space left";
+    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left";
 
     tray-detached = false;
     tray-maxsize = 20;
@@ -90,7 +90,7 @@ colors: fonts:
 
     font = fonts.big;
 
-    monitor = "DP-1-1";
+    monitor = "HDMI-0";
     monitor-strict = false;
     bottom = false;
     fixed-center = true;
@@ -108,7 +108,7 @@ colors: fonts:
 
     modules-left = "bspwm right space";
     modules-center = "left previous spotify next right";
-    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left battery-two right space left";
+    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left";
 
     scroll-up = "#bspwm.prev";
     scroll-down = "#bspwm.next";
@@ -121,7 +121,7 @@ colors: fonts:
 
     font = fonts.small;
 
-    monitor = "eDP-1";
+    monitor = "eDP-1-1";
     monitor-strict = false;
     bottom = true;
     fixed-center = true;
@@ -139,7 +139,7 @@ colors: fonts:
 
     modules-left = "bspwm right";
     modules-center = "";
-    modules-right = "xwindow";
+    modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left";
 
     scroll-up = "#bspwm.prev";
     scroll-down = "#bspwm.next";

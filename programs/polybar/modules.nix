@@ -92,9 +92,9 @@ pkgs: colors:
 
     label-layout = "%icon%";
 
-    layout-icon-default = "";
-    layout-icon-0 = "us;_;us";
-    layout-icon-1 = "us;intl;us_intl";
+    layout-icon-default = "us";
+    layout-icon-0 = "us;us";
+    layout-icon-1 = "fr;fr";
 
     format = {
       text = "<label-layout>";
@@ -259,37 +259,6 @@ pkgs: colors:
 
       full = {
         foreground = colors.cyan;
-        background = colors.terminal_black;
-      };
-    };
-  };
-
-  "module/battery-two" = {
-    type = "internal/battery";
-
-    full-at = 99;
-    battery = "BAT1";
-    poll-interval = 5;
-
-    label = {
-      discharging = " %percentage%%";
-      charging = " %percentage%%";
-      full = " %percentage%%";
-    };
-
-    format = {
-      discharging = {
-        foreground = colors.teal;
-        background = colors.terminal_black;
-      };
-
-      charging = {
-        foreground = colors.teal;
-        background = colors.terminal_black;
-      };
-
-      full = {
-        foreground = colors.teal;
         background = colors.terminal_black;
       };
     };
