@@ -59,6 +59,7 @@
     font-manager
     lxappearance
     teams
+    bluez
 
     # Dev
     gcc
@@ -74,11 +75,8 @@
     texlab
     bear
     cmake
-    boost
-    openssl.out
-    openssl.dev
-    libev
     cargo
+    valgrind
 
     # Formatters and language servers
     nixpkgs-fmt
