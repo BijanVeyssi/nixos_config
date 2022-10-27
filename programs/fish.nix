@@ -19,24 +19,37 @@
       valgrind-full =
         "valgrind --leak-check=full --show-leak-kinds=all --leak-resolution=high --track-origins=yes --vgdb=yes";
 
-      gd = "git diff";
       ga = "git add";
       gc = "git commit";
+      gd = "git diff";
+      gf = "git fetch";
+      gl = "git log";
       gp = "git push";
+      gpl = "git pull";
+      gr = "git reset";
+      gre = "git restore";
+      gsw = "git switch";
+
+      nd = "nix develop --command fish";
+      ns = "nix-shell --command fish";
+
+      dc = "docker container";
+      dC = "docker compose";
+
+      bt = "bluetoothctl";
     };
 
     shellAliases = {
-      gl = "git log --all --decorate --oneline --graph --color=always";
+      glg = "git log --all --decorate --oneline --graph --color=always";
       gs = "git status -s";
-      gsw = "git switch";
 
       zathura = "zathura --fork";
-
-      nix-shell = "nix-shell --command fish";
 
       rm = "rm -I";
       mv = "mv -i";
       cp = "cp -i";
+
+      cdtemp = "cd (mktemp -d)";
     };
 
     plugins = [{
