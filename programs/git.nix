@@ -11,7 +11,6 @@
     };
     extraConfig = {
         pull = {
-            ff = "only";
             rebase = true;
         };
     };
