@@ -15,8 +15,8 @@
     DRI_PRIME = 1;
     __NV_PRIME_RENDER_OFFLOAD = 1;
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    PROTON_LOG=1;
-    PROTON_USE_WINED3D=1;
+    PROTON_LOG = 1;
+    PROTON_USE_WINED3D = 1;
   };
 
   xdg.userDirs.enable = true;
@@ -51,8 +51,6 @@
 
     # Apps
     discord
-    spotify
-    thunderbird
     slack
     feh
     zathura
@@ -65,6 +63,7 @@
     gcc
     gdb
     gnumake
+    criterion
     neovim
     nixfmt
     stylua
@@ -77,13 +76,12 @@
     cmake
     cargo
     valgrind
+    pre-commit
 
     # Formatters and language servers
     nixpkgs-fmt
     nodePackages.bash-language-server
     nodePackages.pyright
-    rust-analyzer
-    rustfmt
     stylua
     sumneko-lua-language-server
     texlab

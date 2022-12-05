@@ -16,10 +16,8 @@
       };
 
       rules = {
-        "Spotify".desktop = "10";
         "discord".desktop = "9";
-        "thunderbird".desktop = "8";
-        "Slack".desktop = "7";
+        "Slack".desktop = "8";
         "firefox".desktop = "1";
 
         "Font-manager".state = "floating";
@@ -29,9 +27,7 @@
 
       startupPrograms = [
         "feh --bg-fill ~/Pictures/ror2.jpg"
-        "spotify"
         "discord"
-        "thunderbird"
         "flameshot"
         "slack"
         "firefox"
