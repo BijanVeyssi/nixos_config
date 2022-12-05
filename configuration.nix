@@ -2,11 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
   boot.loader.grub = {
@@ -19,7 +20,7 @@
 
   boot.initrd.luks.devices.cryptroot = {
     device = "/dev/disk/by-uuid/a7193cac-39d2-446f-9d0e-d5f502e3b5da";
-      preLVM = true;
+    preLVM = true;
   };
 
   nix = {
@@ -27,6 +28,23 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+
+    # Add each flake input as a registry
+    # To make nix3 commands consistent with the flake
+    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+
+    # Map registries to channels
+    # Very useful when using legacy commands
+    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
+      config.nix.registry;
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+    settings.auto-optimise-store = true;
+    # Detects files with identical content in store and replace them with hard links to a single copy
   };
 
   networking.hostName = "Bijan-Nixos"; # Define your hostname.
@@ -82,8 +100,8 @@
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
 
-# Enable CUPS to print documents.
-# services.printing.enable = true;
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
@@ -162,6 +180,5 @@
 
   nixpkgs.config.allowUnfree = true;
 
- # Enable jack audio
+  # Enable jack audio
 }
-

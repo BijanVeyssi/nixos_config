@@ -6,7 +6,7 @@
     home-manager.url = "github:nix-community/home-manager";
   };
 
-  outputs = { home-manager, nixpkgs, ... }: {
+  outputs = inputs@{ home-manager, nixpkgs, ... }: {
     nixosConfigurations = {
       Bijan-Nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -22,6 +22,8 @@
             # arguments to home.nix
           }
         ];
+
+        specialArgs = { inherit inputs; };
       };
     };
   };
