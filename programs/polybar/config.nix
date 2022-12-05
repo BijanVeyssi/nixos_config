@@ -70,7 +70,7 @@ colors: fonts:
     background = colors.background;
     foreground = colors.foreground;
 
-    modules-left = "bspwm right space";
+    modules-left = "bspwm right space xkeyboard";
     modules-center = "";
     modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space left";
 
@@ -106,7 +106,7 @@ colors: fonts:
     background = colors.background;
     foreground = colors.foreground;
 
-    modules-left = "bspwm right space";
+    modules-left = "bspwm right space xkeyboard";
     modules-center = "";
     modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space";
 
@@ -137,7 +137,7 @@ colors: fonts:
     background = colors.background;
     foreground = colors.foreground;
 
-    modules-left = "bspwm right";
+    modules-left = "bspwm right space xkeyboard";
     modules-center = "";
     modules-right = "left date right space left pulseaudio right space left redshift right space left brightness right space left battery-one right space";
 
