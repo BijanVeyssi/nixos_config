@@ -1,18 +1,18 @@
-{ pkgs, ...}:
+{ pkgs, ... }:
 
 {
   programs.git = {
     enable = true;
-    userEmail = "bijan.veyssi-galmiche@epita.fr";
+    userEmail = "bijan.veyssi-galmiche@mobile-devices.fr";
     userName = "bijan.veyssi-galmiche";
     signing = {
-        signByDefault = true;
-        key = "055C32062C20D8AD471CC9F9905BB3EB3013C88F";
+      signByDefault = true;
+      key = "302A8DE497948EB4ED4926A2690EDBE5EDA62FC3";
     };
     extraConfig = {
-        pull = {
-            rebase = true;
-        };
+      pull = {
+        rebase = true;
+      };
     };
   };
 }

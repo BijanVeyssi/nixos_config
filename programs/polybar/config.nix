@@ -18,7 +18,7 @@ colors: fonts:
 
     font = fonts.small;
 
-    monitor = "eDP-1-1";
+    monitor = "eDP-1";
     monitor-strict = false;
     bottom = false;
     fixed-center = true;
@@ -54,7 +54,7 @@ colors: fonts:
 
     font = fonts.big;
 
-    monitor = "eDP-1-1";
+    monitor = "eDP-1";
     monitor-strict = false;
     bottom = false;
     fixed-center = true;
@@ -90,7 +90,7 @@ colors: fonts:
 
     font = fonts.big;
 
-    monitor = "HDMI-0";
+    monitor = "HDMI-1";
     monitor-strict = false;
     bottom = false;
     fixed-center = true;
@@ -121,7 +121,7 @@ colors: fonts:
 
     font = fonts.small;
 
-    monitor = "HDMI-0";
+    monitor = "HDMI-1";
     monitor-strict = false;
     bottom = true;
     fixed-center = true;

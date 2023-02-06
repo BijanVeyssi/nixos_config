@@ -18,11 +18,6 @@
     enableCryptodisk = true;
   };
 
-  boot.initrd.luks.devices.cryptroot = {
-    device = "/dev/disk/by-uuid/a7193cac-39d2-446f-9d0e-d5f502e3b5da";
-    preLVM = true;
-  };
-
   nix = {
     package = pkgs.nixUnstable;
     extraOptions = ''
@@ -76,19 +71,9 @@
   services.xserver.displayManager.startx.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.windowManager.bspwm.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.opengl.driSupport32Bit = true;
   hardware.opengl.enable = true;
-  hardware.nvidia = {
-    package = config.boot.kernelPackages.nvidiaPackages.legacy_390;
-    prime = {
-      sync.enable = true;
-      nvidiaBusId = "PCI:1:0:0";
-      intelBusId = "PCI:0:2:0";
-    };
-    modesetting.enable = false;
-  };
 
   # Configure keymap in X11
   services.xserver.layout = "us";
