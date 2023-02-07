@@ -26,7 +26,7 @@
       };
 
       startupPrograms = [
-        "feh --bg-fill ~/Pictures/ror2.jpg"
+        "feh --bg-fill ~/.config/nixos_config/background.jpg"
         "discord"
         "flameshot"
         "slack"
