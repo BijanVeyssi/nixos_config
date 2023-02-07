@@ -2,8 +2,8 @@
 
 ENTRIES="Cancel Clone Right Left Above Off"
 
-PRIMARY="eDP-1-1"
-SECONDARY="HDMI-0"
+PRIMARY="eDP-1"
+SECONDARY="HDMI-1"
 
 PRIMARY_MODE=$(xrandr | grep -C 1 "$PRIMARY" | sed --expression='s/[[:space:]]*\([0-9]\+x[0-9]\+\).*/\1/g' | tail -1)
 SECONDARY_MODE=$(xrandr | grep -C 1 "$SECONDARY" | sed --expression='s/[[:space:]]*\([0-9]\+x[0-9]\+\).*/\1/g' | tail -1)
