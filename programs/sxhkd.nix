@@ -63,9 +63,9 @@
       "super + shift + s" = "flameshot gui";
 
       # Dual scren
-      "super + p" = "~/.scripts/monitor_layout.sh";
+      "super + p" = "~/.config/nixos_config/scripts/monitor_layout.sh";
 
-      "super + space" = "~/.scripts/keyboard_layout.sh";
+      "super + space" = "~/.config/nixos_config/scripts/keyboard_layout.sh";
     };
   };
 }
