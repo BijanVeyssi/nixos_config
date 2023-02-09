@@ -37,8 +37,6 @@
     arandr
     man-pages
 
-    pandoc
-    texlive.combined.scheme-full
     fira
     # fira-mono
     fira-code
@@ -54,22 +52,13 @@
     bluez
 
     # Dev
-    gcc
-    gdb
     gnumake
-    criterion
     neovim
     nixfmt
     stylua
-    rustfmt
-    clang-tools
     sumneko-lua-language-server
-    rust-analyzer
-    texlab
     bear
     cmake
-    cargo
-    valgrind
     pre-commit
 
     # Formatters and language servers
