@@ -60,6 +60,8 @@
     bear
     cmake
     pre-commit
+    nix-direnv
+    direnv
 
     # Formatters and language servers
     nixpkgs-fmt
