@@ -37,6 +37,8 @@
       dC = "docker compose";
 
       bt = "bluetoothctl";
+
+      tri = "tree -I 'target|result|*cache*'";
     };
 
     shellAliases = {
