@@ -27,12 +27,12 @@ if [ "$SEL" = "Off" ]; then
     bspc monitor "$SECONDARY" -r
     bspc wm --adopt-orphans
     polybar mainbar &
-    feh --bg-fill  ~/Pictures/ror2.jpg
+    feh --bg-fill ~/.config/nixos_config/background.jpg
 elif [ "$SEL" = "Clone" ]; then
     xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" \
            --output "$SECONDARY" --mode "$SECONDARY_MODE"
     polybar mainbar &
-    feh --bg-fill  ~/Pictures/ror2.jpg
+    feh --bg-fill ~/.config/nixos_config/background.jpg
 else
     case "$SEL" in
         "Above")
@@ -55,5 +55,5 @@ else
     bspc monitor "$SECONDARY" -d 1 6 7 8 9 10
     polybar bottom_bar &
     polybar top_bar &
-    feh --bg-fill  ~/Pictures/ror2.jpg
+    feh --bg-fill ~/.config/nixos_config/background.jpg
 fi
