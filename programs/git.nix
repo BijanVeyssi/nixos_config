@@ -3,7 +3,7 @@
 {
   programs.git = {
     enable = true;
-    userEmail = "bijan.veyssi-galmiche@mobile-devices.fr";
+    userEmail = "bijan.veyssi-galmiche@munic.io";
     userName = "bijan.veyssi-galmiche";
     signing = {
       signByDefault = true;
