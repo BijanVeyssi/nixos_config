@@ -48,7 +48,6 @@
     zathura
     font-manager
     lxappearance
-    teams
     bluez
 
     # Dev
