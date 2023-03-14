@@ -7,7 +7,7 @@
     userName = "bijan.veyssi-galmiche";
     signing = {
       signByDefault = true;
-      key = "302A8DE497948EB4ED4926A2690EDBE5EDA62FC3";
+      key = "0E68FB40CBAC9042223BB153301A84AAF9D9F6A8";
     };
     extraConfig = {
       pull = {
