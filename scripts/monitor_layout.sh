@@ -51,8 +51,8 @@ else
             exit 1
             ;;
     esac
-    bspc monitor "$PRIMARY" -d 2 3 4 5
-    bspc monitor "$SECONDARY" -d 1 6 7 8 9 10
+    bspc monitor "$PRIMARY" -d 1 7 8 9 10
+    bspc monitor "$SECONDARY" -d 2 3 4 5 6
     polybar bottom_bar &
     polybar top_bar &
     feh --bg-fill ~/.config/nixos_config/background.jpg
