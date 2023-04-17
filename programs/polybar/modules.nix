@@ -93,8 +93,8 @@ pkgs: colors:
     label-layout = "%icon%";
 
     layout-icon-default = "us";
-    layout-icon-0 = "us;us";
-    layout-icon-1 = "fr;fr";
+    layout-icon-0 = "us;_;us";
+    layout-icon-1 = "us;intl;us_intl";
 
     format = {
       text = "<label-layout>";
