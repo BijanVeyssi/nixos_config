@@ -12,7 +12,6 @@
     ];
   boot.loader.grub = {
     enable = true;
-    version = 2;
     device = "nodev";
     efiSupport = true;
     enableCryptodisk = true;
@@ -116,6 +115,8 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "vboxusers" "docker" ];
   };
+
+  programs.fish.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
