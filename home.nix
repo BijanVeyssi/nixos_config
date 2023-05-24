@@ -73,8 +73,6 @@
     bear
     cmake
     pre-commit
-    nix-direnv
-    direnv
     rnix-lsp
 
     # Formatters and language servers
