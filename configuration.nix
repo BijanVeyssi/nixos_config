@@ -104,8 +104,6 @@
     };
   };
 
-  users.extraUsers.bijan.extraGroups = [ "jackaudio" ];
-
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
@@ -113,7 +111,7 @@
   users.users.bijan = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "vboxusers" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "vboxusers" "docker" "jackaudio" "audio" ];
   };
 
   programs.fish.enable = true;
