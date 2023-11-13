@@ -38,7 +38,7 @@
     man-pages
 
     fira
-    # fira-mono
+    fira-mono
     fira-code
 
     # Apps
