@@ -37,6 +37,7 @@
     arandr
     man-pages
 
+    # Fonts
     fira
     fira-mono
     fira-code
