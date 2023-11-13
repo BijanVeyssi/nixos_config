@@ -36,6 +36,7 @@
     unzip
     arandr
     man-pages
+    keepassxc
 
     # Fonts
     fira

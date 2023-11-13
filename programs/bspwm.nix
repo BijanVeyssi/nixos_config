@@ -19,6 +19,7 @@
         "discord".desktop = "9";
         "Slack".desktop = "8";
         "firefox".desktop = "1";
+        "keepassxc".desktop = "0";
 
         "Font-manager".state = "floating";
         "Pavucontrol".state = "floating";
@@ -31,6 +32,7 @@
         "flameshot"
         "slack"
         "firefox"
+        "keepassxc"
       ];
     };
   };
