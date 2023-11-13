@@ -5,8 +5,14 @@ ENTRIES="Cancel Clone Right Left Above Off"
 PRIMARY="eDP-1"
 SECONDARY="HDMI-1"
 
-PRIMARY_MODE=$(xrandr | grep -C 1 "$PRIMARY" | sed --expression='s/[[:space:]]*\([0-9]\+x[0-9]\+\).*/\1/g' | tail -1)
-SECONDARY_MODE=$(xrandr | grep -C 1 "$SECONDARY" | sed --expression='s/[[:space:]]*\([0-9]\+x[0-9]\+\).*/\1/g' | tail -1)
+PRIMARY_INFOS=$(xrandr | grep -C 1 "$PRIMARY")
+SECONDARY_INFOS=$(xrandr | grep -C 1 "$SECONDARY")
+
+PRIMARY_MODE=$(echo "$PRIMARY_INFOS" | sed --expression='s/[[:space:]]*\([0-9]\+x[0-9]\+\).*/\1/g' | tail -1)
+SECONDARY_MODE=$(echo "$SECONDARY_INFOS" | sed --expression='s/[[:space:]]*\([0-9]\+x[0-9]\+\).*/\1/g' | tail -1)
+
+PRIMARY_RATE=$(echo "$PRIMARY_INFOS" | sed --expression='s/[[:space:]]*[0-9]\+x[0-9]\+[[:space:]]*\([0-9]\+\).*/\1/g' |tail -1)
+SECONDARY_RATE=$(echo "$SECONDARY_INFOS" | sed --expression='s/[[:space:]]*[0-9]\+x[0-9]\+[[:space:]]*\([0-9]\+\).*/\1/g' |tail -1)
 
 SEL="$(printf '%s\n' $ENTRIES | rofi -dmenu -p "Monitor Setup:" -i)"
 
@@ -29,23 +35,23 @@ if [ "$SEL" = "Off" ]; then
     polybar mainbar &
     feh --bg-fill ~/.config/nixos_config/background.jpg
 elif [ "$SEL" = "Clone" ]; then
-    xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" \
-           --output "$SECONDARY" --mode "$SECONDARY_MODE"
+    xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" --rate "$PRIMARY_RATE" \
+           --output "$SECONDARY" --mode "$SECONDARY_MODE" --rate "$SECONDARY_RATE"
     polybar mainbar &
     feh --bg-fill ~/.config/nixos_config/background.jpg
 else
     case "$SEL" in
         "Above")
-            xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE"\
-                   --output "$SECONDARY" --mode "$SECONDARY_MODE" --above "$PRIMARY"
+            xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" --rate "$PRIMARY_RATE" \
+                   --output "$SECONDARY" --mode "$SECONDARY_MODE" --rate "$SECONDARY_RATE" --above "$PRIMARY"
             ;;
         "Right")
-            xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" \
-                   --output "$SECONDARY" --mode "$SECONDARY_MODE" --right-of "$PRIMARY"
+            xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" --rate "$PRIMARY_RATE" \
+                   --output "$SECONDARY" --mode "$SECONDARY_MODE" --rate "$SECONDARY_RATE" --right-of "$PRIMARY"
             ;;
         "Left")
-            xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" \
-                   --output "$SECONDARY" --mode "$SECONDARY_MODE" --left-of "$PRIMARY"
+            xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" --rate "$PRIMARY_RATE" \
+                   --output "$SECONDARY" --mode "$SECONDARY_MODE" --rate "$SECONDARY_RATE" --left-of "$PRIMARY"
             ;;
         *)
             exit 1
