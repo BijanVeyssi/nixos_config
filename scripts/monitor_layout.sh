@@ -11,8 +11,28 @@ SECONDARY_INFOS=$(xrandr | grep -C 1 "$SECONDARY")
 PRIMARY_MODE=$(echo "$PRIMARY_INFOS" | sed --expression='s/[[:space:]]*\([0-9]\+x[0-9]\+\).*/\1/g' | tail -1)
 SECONDARY_MODE=$(echo "$SECONDARY_INFOS" | sed --expression='s/[[:space:]]*\([0-9]\+x[0-9]\+\).*/\1/g' | tail -1)
 
-PRIMARY_RATE=$(echo "$PRIMARY_INFOS" | sed --expression='s/[[:space:]]*[0-9]\+x[0-9]\+[[:space:]]*\([0-9]\+\).*/\1/g' |tail -1)
-SECONDARY_RATE=$(echo "$SECONDARY_INFOS" | sed --expression='s/[[:space:]]*[0-9]\+x[0-9]\+[[:space:]]*\([0-9]\+\).*/\1/g' |tail -1)
+PRIMARY_RATES=$(echo "$PRIMARY_INFOS" | sed --expression='s/[[:space:]]*[0-9]\+x[0-9]\+[[:space:]]*\([0-9]\+.*\)/\1/g' |tail -1)
+SECONDARY_RATES=$(echo "$SECONDARY_INFOS" | sed --expression='s/[[:space:]]*[0-9]\+x[0-9]\+[[:space:]]*\([0-9]\+.*\)/\1/g' |tail -1)
+
+PRIMARY_RATE=0
+for e in $PRIMARY_RATES
+do
+    e=$(echo $e | sed --expression='s/\([0-9]\+\)\..*/\1/g')
+    re='^[0-9]+$'
+    if [[ "$e" =~ $re ]]; then
+        PRIMARY_RATE=$(($e > $PRIMARY_RATE ? $e : $PRIMARY_RATE))
+    fi
+done
+
+SECONDARY_RATE=0
+for e in $SECONDARY_RATES
+do
+    e=$(echo $e | sed --expression='s/\([0-9]\+\)\..*/\1/g')
+    re='^[0-9]+$'
+    if [[ "$e" =~ $re ]]; then
+        SECONDARY_RATE=$(($e > $SECONDARY_RATE ? $e : $SECONDARY_RATE))
+    fi
+done
 
 SEL="$(printf '%s\n' $ENTRIES | rofi -dmenu -p "Monitor Setup:" -i)"
 
