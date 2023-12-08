@@ -11,6 +11,13 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     BROWSER = "firefox";
+    _JAVA_AWT_WM_NONREPARENTING = 1;
+    DRI_PRIME = 1;
+    __NV_PRIME_RENDER_OFFLOAD = 1;
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    PROTON_LOG = 1;
+    __VK_LAYER_NV_optimus = "NVIDIA_only";
+    PROTON_USE_WINED3D = 1;
   };
 
   xdg.userDirs.enable = true;
