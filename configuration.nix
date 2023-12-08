@@ -73,6 +73,15 @@
 
   hardware.opengl.driSupport32Bit = true;
   hardware.opengl.enable = true;
+  hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    prime = {
+      sync.enable = true;
+      nvidiaBusId = "PCI:1:0:0";
+      intelBusId = "PCI:0:2:0";
+    };
+    modesetting.enable = false;
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -166,6 +175,7 @@
   system.stateVersion = "21.11"; # Did you read the comment?
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.nvidia.acceptLicense = true;
 
   # Enable jack audio
 }
