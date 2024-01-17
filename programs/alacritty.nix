@@ -99,15 +99,16 @@
       working_directory = "None";
 
       mouse = {
-        double_click = { threshold = 300; };
-        triple_click = { threshold = 300; };
+        hide_when_typing = true;
       };
 
-      hide_when_typing = true;
-
       hints = {
-        launcher = { program = "xdg-open"; };
-        modifiers = "Shift";
+        enabled = [
+          {
+            hyperlinks = true;
+            command = "xdg-open";
+          }
+        ];
       };
     };
   };
