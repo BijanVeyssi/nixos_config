@@ -55,6 +55,7 @@
     texlive.combined.scheme-full
 
     # Dev
+    clang-tools
     gnumake
     neovim
     nixfmt
