@@ -51,6 +51,8 @@
     font-manager
     lxappearance
     bluez
+    pandoc
+    texlive.combined.scheme-full
 
     # Dev
     gnumake
