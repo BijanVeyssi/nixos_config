@@ -55,6 +55,8 @@
     texlive.combined.scheme-full
 
     # Dev
+    go
+    gcc
     clang-tools
     gnumake
     neovim
