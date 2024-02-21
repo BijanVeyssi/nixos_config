@@ -75,10 +75,13 @@
   hardware.opengl.enable = true;
 
   # Configure keymap in X11
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "caps:swapescape";
+  services.xserver.xkb = {
+    options = "caps:swapescape";
+    layout = "us";
+  };
   services.xserver.autoRepeatDelay = 220;
   services.xserver.autoRepeatInterval = 35;
+
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
