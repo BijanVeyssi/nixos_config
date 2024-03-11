@@ -165,7 +165,13 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.11"; # Did you read the comment?
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config =
+    {
+      permittedInsecurePackages = [
+        "nix-2.15.3"
+      ];
+      allowUnfree = true;
+    };
 
   # Enable jack audio
 }
