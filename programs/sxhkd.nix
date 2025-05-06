@@ -67,7 +67,13 @@
       # Dual scren
       "super + p" = "~/.config/nixos_config/scripts/monitor_layout.sh";
 
+      # Keyboard layout
       "super + space" = "~/.config/nixos_config/scripts/keyboard_layout.sh";
+
+      # Notifications
+      "super + n" = "dunstctl action && dunstctl close";
+      "super + shift + n" = "dunstctl close";
+      "super + ctrl + shift + n" = "dunstctl close-all";
     };
   };
 }
