@@ -7,7 +7,7 @@
       monitors = { eDP-1 = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" ]; };
 
       settings = {
-        border_width = 1;
+        border_width = 2;
         focused_border_color = "#9d7cd8";
         window_gap = 10;
         split_ratio = 0.5;
