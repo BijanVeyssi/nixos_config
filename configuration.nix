@@ -267,8 +267,8 @@
           Description = "Munic Device Manager Daemon";
 
           # Ask for graphical interface and the dbus socket.
-          Wants = "graphical.target dbus.socket";
-          After = "graphical.target dbus.socket";
+          Wants = "graphical.target dbus.socket mdmd.socket xdg-desktop-autostart.target";
+          After = "graphical.target dbus.socket mdmd.socket xdg-desktop-autostart.target";
         };
         serviceConfig = {
           PermissionsStartOnly = "false";
