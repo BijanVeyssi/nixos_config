@@ -239,6 +239,10 @@
     enableSSHSupport = true;
   };
 
+  # i3lock
+  programs.i3lock.enable = true;
+  security.pam.services.i3lock.enable = true;
+
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.gutenprint ];
 
