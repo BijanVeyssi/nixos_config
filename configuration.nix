@@ -49,6 +49,8 @@
     # Detects files with identical content in store and replace them with hard links to a single copy
   };
 
+  # Automatic garbage collection (user profiles)
+
   networking.hostName = "Bijan-Nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
@@ -253,6 +255,12 @@
   # Systemd
   systemd.user = {
     services = {
+      nix-gc = {
+        description = "Garbage collection for user profiles";
+        script = "/run/current-system/sw/bin/nix-collect-garbage --delete-older-than 7d";
+        startAt = "daily";
+      };
+
       mdmd = {
         enable = true;
         unitConfig = {
