@@ -4,7 +4,7 @@
     windowManager.bspwm = {
       enable = true;
 
-      monitors = { eDP-1 = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" ]; };
+      monitors = { eDP-1 = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "NUM1" "NUM2" "NUM3" "NUM4" "NUM5" "NUM6" "NUM7" "NUM8" "NUM9" "NUM0" ]; };
 
       settings = {
         border_width = 2;

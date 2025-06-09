@@ -19,8 +19,8 @@
         "bspc node -f {next,prev}.local.!hidden.window";
       "super + {grave,Tab}" = # Focus last node/desktop
         "bspc {node,desktop} -f last";
-      "super + {_,shift + }{1,2,3,4,5,6,7,8,9,0}" = # Focus/Send to desktop
-        "bspc {desktop -f,node -d} '{1,2,3,4,5,6,7,8,9,10}'";
+      "super + {_,shift + }{1,2,3,4,5,6,7,8,9,0,KP_End,KP_Down,KP_Next,KP_Left,KP_Begin,KP_Right,KP_Home,KP_Up,KP_Prior,KP_Insert}" = # Focus/Send to desktop
+        "bspc {desktop -f,node -d} '{1,2,3,4,5,6,7,8,9,10,NUM1,NUM2,NUM3,NUM4,NUM5,NUM6,NUM7,NUM8,NUM9,NUM0}'";
       "super + ctrl + {j,k,l,semicolon}" = # Preselect direction
         "bspc node -p {west,south,north,east}";
       "super + ctrl + {1-9}" = # Preselect ratio

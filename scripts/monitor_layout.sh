@@ -49,7 +49,7 @@ bspc config left_padding 0
 if [ "$SEL" = "Off" ]; then
     xrandr --output "$PRIMARY" --primary \
            --output "$SECONDARY" --off
-    bspc monitor "$PRIMARY" -d 1 2 3 4 5 6 7 8 9 10
+    bspc monitor "$PRIMARY" -d 1 2 3 4 5 6 7 8 9 10 "NUM1" "NUM2" "NUM3" "NUM4" "NUM5" "NUM6" "NUM7" "NUM8" "NUM9" "NUM0"
     bspc monitor "$SECONDARY" -r
     bspc wm --adopt-orphans
     polybar mainbar &
@@ -78,7 +78,7 @@ else
             ;;
     esac
     bspc monitor "$PRIMARY" -d 1 7 8 9 10
-    bspc monitor "$SECONDARY" -d 2 3 4 5 6
+    bspc monitor "$SECONDARY" -d 2 3 4 5 6 "NUM1" "NUM2" "NUM3" "NUM4" "NUM5" "NUM6" "NUM7" "NUM8" "NUM9" "NUM0"
     polybar bottom_bar &
     polybar top_bar &
     feh --bg-fill ~/.config/nixos_config/background.jpg
