@@ -44,6 +44,8 @@
     fzf
     jq
     rclone
+    nix-search-cli
+    libnotify
 
     # Fonts
     fira
