@@ -225,6 +225,7 @@
     networkmanagerapplet
     networkmanager
     firefox
+    qutebrowser
     pavucontrol
     iproute2
     iptables
