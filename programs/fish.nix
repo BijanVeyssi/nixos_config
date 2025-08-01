@@ -26,9 +26,12 @@
       gl = "git log";
       gp = "git push";
       gpl = "git pull";
+      gR = "git reset --hard";
       gr = "git reset";
       gre = "git restore";
+      gs = "git status -s";
       gsw = "git switch";
+      gswd = "git switch --detach";
 
       nd = "nix develop --command fish";
       ns = "nix-shell --command fish";
@@ -43,7 +46,6 @@
 
     shellAliases = {
       glg = "git log --all --decorate --oneline --graph --color=always";
-      gs = "git status -s";
 
       zathura = "zathura --fork";
 
