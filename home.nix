@@ -11,6 +11,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     BROWSER = "firefox";
+    CM_LAUNCHER = "rofi";
   };
 
   xdg.userDirs.enable = true;
@@ -46,6 +47,8 @@
     rclone
     nix-search-cli
     libnotify
+    clipmenu
+    home-manager
 
     # Fonts
     fira

@@ -255,6 +255,41 @@
         script = "/run/current-system/sw/bin/nix-collect-garbage --delete-older-than 7d";
         startAt = "daily";
       };
+
+      clipmenud = {
+        enable = true;
+        unitConfig = {
+          Description = "Clip Menu Daemon";
+
+          # Ask for graphical interface and the dbus socket.
+          Wants = "graphical.target";
+          After = "graphical.target";
+        };
+        serviceConfig = {
+          PermissionsStartOnly = "false";
+          Sockets = "clipmenud.socket";
+          StandardInput = "socket";
+          StandardError = "journal";
+          Environment = [
+            "CM_IGNORE_WINDOW=\"KeePass|nvim\""
+            "CM_DEBUG=1"
+          ];
+          ExecStart = "${pkgs.clipmenu}/bin/clipmenud";
+          Type = "simple";
+          Restart = "always";
+          RestartSec = "1s";
+          TimeoutSec = "180";
+        };
+        wantedBy = [ "default.target" ];
+      };
+    };
+    sockets = {
+      clipmenud = {
+        socketConfig = {
+          ListenFIFO = "%t/clipmenud/clipmenud.stdin";
+          Service = "clipmenud.service";
+        };
+      };
     };
   };
 

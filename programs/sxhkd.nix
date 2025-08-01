@@ -72,6 +72,9 @@
       "super + n" = "dunstctl action && dunstctl close";
       "super + shift + n" = "dunstctl close";
       "super + ctrl + shift + n" = "dunstctl close-all";
+
+      # Clipboard buffer
+      "super + v" = "clipmenu";
+        };
     };
-  };
-}
+  }
