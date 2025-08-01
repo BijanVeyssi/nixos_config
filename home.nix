@@ -46,6 +46,8 @@
     rclone
     nix-search-cli
     libnotify
+    clipmenu
+    home-manager
 
     # Fonts
     fira
