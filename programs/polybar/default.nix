@@ -38,7 +38,8 @@
       enable = true;
       package = pkgs.polybarFull;
       settings = config // modules;
-      script = "polybar mainbar &";
+      script = "polybar top_bar &
+      polybar top_bar2 &";
     };
 
   home.file = {

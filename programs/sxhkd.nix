@@ -49,8 +49,6 @@
 
       # Terminal
       "super + Return" = "alacritty";
-      # Terminal in mdmd
-      "super + shift + Return" = "~/.config/nixos_config/scripts/mdmc.sh";
 
       # Rofi
       "super + d" = "rofi -show drun -modi drun -show-icons";

@@ -18,11 +18,11 @@
         "kernel.unknown_mni_panic" = 1;
       };
     };
-    loader.grub = {
+    loader.systemd-boot = {
       enable = true;
-      device = "nodev";
-      efiSupport = true;
-      enableCryptodisk = true;
+      # device = "nodev";
+      # efiSupport = true;
+      # enableCryptodisk = true;
     };
   };
 
@@ -62,8 +62,8 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp3s0.useDHCP = true;
-  networking.interfaces.wlo1.useDHCP = true;
+  # networking.interfaces.enp0s31f6.useDHCP = true;
+  # networking.interfaces.wlp3s0.useDHCP = true;
 
   # Nftables
   networking.nftables = {
@@ -126,6 +126,7 @@
   services.xserver.displayManager.startx.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.windowManager.bspwm.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # Fix for some x11 apps
   programs.nix-ld = {
@@ -138,10 +139,6 @@
     ];
     enable = true;
   };
-
-
-  hardware.graphics.enable32Bit = true;
-  hardware.graphics.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -197,16 +194,10 @@
   services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.renken = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "vboxusers" "docker" "jackaudio" "audio" ];
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.bijan = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "vboxusers" "docker" "jackaudio" "audio" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "docker" "jackaudio" "audio" ];
   };
 
   security.sudo.extraConfig = ''
@@ -229,6 +220,7 @@
     iproute2
     iptables
     nftables
+    nvtopPackages.nvidia
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -246,7 +238,6 @@
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.gutenprint ];
 
-  virtualisation.virtualbox.host.enable = true;
   virtualisation.docker.enable = true;
 
   services.openssh = {
@@ -263,42 +254,6 @@
         description = "Garbage collection for user profiles";
         script = "/run/current-system/sw/bin/nix-collect-garbage --delete-older-than 7d";
         startAt = "daily";
-      };
-
-      mdmd = {
-        enable = true;
-        unitConfig = {
-          Description = "Munic Device Manager Daemon";
-
-          # Ask for graphical interface and the dbus socket.
-          Wants = "graphical.target dbus.socket mdmd.socket xdg-desktop-autostart.target";
-          After = "graphical.target dbus.socket mdmd.socket xdg-desktop-autostart.target";
-        };
-        serviceConfig = {
-          PermissionsStartOnly = "false";
-          Sockets = "mdmd.socket";
-          StandardInput = "socket";
-          StandardError = "journal";
-          Environment = [
-            "PATH=/run/wrappers/bin/:/etc/profiles/per-user/bijan/bin/:/run/current-system/sw/bin/"
-            "TERM=alacritty"
-          ];
-          ExecStart = "/home/bijan/mdmd/target/debug/mdmd";
-          Type = "simple";
-          RemainAfterExit = "false";
-          Restart = "always";
-          RestartSec = "1s";
-          TimeoutSec = "180";
-        };
-        wantedBy = [ "default.target" ];
-      };
-    };
-    sockets = {
-      mdmd = {
-        socketConfig = {
-          ListenFIFO = "%t/mdmd/mdmd.stdin";
-          Service = "mdmd.service";
-        };
       };
     };
   };

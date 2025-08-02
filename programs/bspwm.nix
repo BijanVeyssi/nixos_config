@@ -4,7 +4,10 @@
     windowManager.bspwm = {
       enable = true;
 
-      monitors = { eDP-1 = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "NUM1" "NUM2" "NUM3" "NUM4" "NUM5" "NUM6" "NUM7" "NUM8" "NUM9" "NUM0" ]; };
+      monitors = {
+        DP-5 = [ "1" "7" "8" "9" "10" ];
+        DP-2 = [ "2" "3" "4" "5" "6" "NUM1" "NUM2" "NUM3" "NUM4" "NUM5" "NUM6" "NUM7" "NUM8" "NUM9" "NUM0" ];
+      };
 
       settings = {
         border_width = 2;
@@ -17,7 +20,6 @@
 
       rules = {
         "discord".desktop = "9";
-        "Slack".desktop = "8";
         "firefox".desktop = "1";
         "keepassxc".desktop = "0";
 
@@ -30,7 +32,6 @@
         "feh --bg-fill ~/.config/nixos_config/background.jpg"
         "discord"
         "flameshot"
-        "slack"
         "firefox"
         "keepassxc"
       ];

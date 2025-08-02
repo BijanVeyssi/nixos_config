@@ -20,43 +20,39 @@
     "pcie_aspm=off"
   ];
 
-  boot.loader.grub = {
-    enable = true;
-    device = "nodev";
-    efiSupport = true;
-    gfxmodeEfi = "1920x1080";
-  };
-
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/8ae160a8-523e-419e-bfc1-6e51ed30e5bc";
+      device = "/dev/disk/by-uuid/cd932cdc-dfdc-476c-b941-cc05c648c611";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-uuid/897C-7910";
+      device = "/dev/disk/by-uuid/FA96-5DF6";
       fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
     };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/68368228-add2-479b-82b1-a35816fa4a25"; }];
+    [{ device = "/dev/disk/by-uuid/0b620b7d-30fa-40e6-a8b0-875a96d4c33e"; }];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp0s31f6.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
-
-  boot.initrd.luks.devices.cryptroot = {
-    device = "/dev/disk/by-label/cryptroot";
+  boot.initrd.luks.devices."luks-42ece39d-a3a3-4766-8950-b1b25c1f9d22" = {
+    device = "/dev/disk/by-uuid/42ece39d-a3a3-4766-8950-b1b25c1f9d22";
     preLVM = true;
     allowDiscards = true;
   };
 
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # Nvidia hardware
+  hardware = {
+    nvidia = {
+      nvidiaSettings = true;
+      open = false;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+  };
 }
