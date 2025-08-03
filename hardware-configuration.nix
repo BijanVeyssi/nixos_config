@@ -20,6 +20,12 @@
     "pcie_aspm=off"
   ];
 
+  fileSystems."/mnt/sda1" =
+    {
+      device = "/dev/disk/by-uuid/5E0CED470CED1B33";
+      fsType = "ntfs";
+    };
+
   fileSystems."/" =
     {
       device = "/dev/disk/by-uuid/cd932cdc-dfdc-476c-b941-cc05c648c611";
