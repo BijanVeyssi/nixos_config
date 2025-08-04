@@ -40,7 +40,7 @@ if [ -z "$SEL" ] || [ "$SEL" = "Cancel" ]; then
     exit 0
 fi
 
-pkill .polybar-wrappe
+pkill polybar
 bspc config bottom_padding 0
 bspc config top_padding 0
 bspc config right_padding 0

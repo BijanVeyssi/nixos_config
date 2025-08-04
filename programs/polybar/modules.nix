@@ -241,9 +241,9 @@ pkgs: colors:
     poll-interval = 5;
 
     label = {
-      discharging = " %percentage%%";
-      charging = " %percentage%%";
-      full = " %percentage%%";
+      discharging = "󰂃 %percentage%%";
+      charging = "󰂄 %percentage%%";
+      full = "󰁹 %percentage%%";
     };
 
     format = {

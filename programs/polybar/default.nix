@@ -24,11 +24,13 @@
           "Iosevka:style=Bold:size=9.5;4"
           "Iosevka:style=Bold:size=11.875;3"
           "Symbols Nerd Font:style=Bold:size=9.5;3"
+          "Hack Nerd Font Mono:style=Bold:size=9.5;6"
         ];
         big = [
           "Iosevka:style=Bold:size=12;4"
           "Iosevka:style=Bold:size=15;3"
           "Symbols Nerd Font:style=Bold:size=12;4"
+          "Hack Nerd Font Mono:style=Bold:size=12.4;6"
         ];
       };
       config = import ./config.nix colors fonts;
