@@ -62,8 +62,6 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp3s0.useDHCP = true;
-  networking.interfaces.wlo1.useDHCP = true;
 
   # Nftables
   networking.nftables = {
@@ -199,14 +197,14 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.renken = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "vboxusers" "docker" "jackaudio" "audio" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "docker" "jackaudio" "audio" ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.bijan = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "vboxusers" "docker" "jackaudio" "audio" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "docker" "jackaudio" "audio" ];
   };
 
   security.sudo.extraConfig = ''
@@ -247,7 +245,6 @@
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.gutenprint ];
 
-  virtualisation.virtualbox.host.enable = true;
   virtualisation.docker.enable = true;
 
   services.openssh = {
