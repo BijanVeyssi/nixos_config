@@ -10,7 +10,7 @@
     userName = "Bijan Veyssi";
     signing = {
       signByDefault = true;
-      key = "9C3052F0860EFA47F251FF4C6BA2C997FA537282";
+      key = "82944C5317A1CBB0BF42E5A19EAA8A7A13908C6B";
     };
     extraConfig = {
       pull = {
