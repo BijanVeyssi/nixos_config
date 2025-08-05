@@ -2,8 +2,8 @@
 
 ENTRIES="Cancel Clone Right Left Above Off"
 
-PRIMARY="eDP-1"
-SECONDARY="HDMI-1"
+PRIMARY="DP-2"
+SECONDARY="DP-5"
 
 PRIMARY_INFOS=$(xrandr | grep -C 1 "$PRIMARY")
 SECONDARY_INFOS=$(xrandr | grep -C 1 "$SECONDARY")
@@ -77,9 +77,9 @@ else
             exit 1
             ;;
     esac
-    bspc monitor "$PRIMARY" -d 1 7 8 9 10
-    bspc monitor "$SECONDARY" -d 2 3 4 5 6 "NUM1" "NUM2" "NUM3" "NUM4" "NUM5" "NUM6" "NUM7" "NUM8" "NUM9" "NUM0"
-    polybar bottom_bar &
+    bspc monitor "$PRIMARY" -d 2 3 4 5 6 "NUM1" "NUM2" "NUM3" "NUM4" "NUM5" "NUM6" "NUM7" "NUM8" "NUM9" "NUM0"
+    bspc monitor "$SECONDARY" -d 1 7 8 9 10
     polybar top_bar &
+    polybar top_bar2 &
     feh --bg-fill ~/.config/nixos_config/background.jpg
 fi
