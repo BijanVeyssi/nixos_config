@@ -3,6 +3,7 @@
     enable = true;
     enableFishIntegration = true;
     settings = {
+      format = "$\{custom.mdev\}$all";
       battery.disabled = true;
 
       directory = {
@@ -19,9 +20,18 @@
       ruby.symbol = " ";
       rust.symbol = " ";
 
+      custom.mdev = {
+        command = ''echo $MDEV | awk -F_ "{print \$2}"'';
+        format = "[$output]($style) ";
+        when = "test \"$MDEV\"";
+      };
+
       git_status = {
-        style = "bold blue";
-        conflicted = "[=\${count}](bold red)";
+        style = "
+          bold
+          blue ";
+        conflicted = " [ =\${count} ]
+          (bold red) ";
         stashed = "%\${count}"; # Escape sequence broken
         deleted = "[✘ \${count}](bold red)";
         renamed = "[»\${count}](bold yellow)";
