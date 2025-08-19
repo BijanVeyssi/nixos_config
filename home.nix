@@ -31,6 +31,7 @@
     file
 
     # Utility
+    pamixer
     flameshot
     brightnessctl
     playerctl

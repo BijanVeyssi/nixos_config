@@ -35,9 +35,9 @@
         "bspc node -v {-20 0,0 20,0 -20,20 0}";
 
       # Audio
-      "XF86AudioRaiseVolume" = "pactl set-sink-volume @DEFAULT_SINK@ +5%";
-      "XF86AudioLowerVolume" = "pactl set-sink-volume @DEFAULT_SINK@ -5%";
-      "XF86AudioMute" = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
+      "XF86AudioRaiseVolume" = "pamixer --increase 5 --allow-boost";
+      "XF86AudioLowerVolume" = "pamixer --decrease 5";
+      "XF86AudioMute" = "pamixer --toggle-mute";
       "XF86AudioPlay" = "playerctl play-pause";
       "XF86AudioNext" = "playerctl next";
       "XF86AudioPrev" = "playerctl previous";
@@ -77,6 +77,6 @@
 
       # Clipboard buffer
       "super + v" = "clipmenu";
-        };
     };
-  }
+  };
+}
