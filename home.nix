@@ -67,6 +67,7 @@
     bluez
 
     # Dev
+    nil
     go
     gcc
     clang-tools
