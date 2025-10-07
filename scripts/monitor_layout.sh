@@ -1,6 +1,6 @@
 #! /run/current-system/sw/bin/bash
 
-ENTRIES="Cancel Clone Right Left Above Off"
+ENTRIES="Cancel Clone Right Left Above Below Off"
 
 PRIMARY="eDP-1"
 SECONDARY="HDMI-1"
@@ -64,6 +64,10 @@ else
         "Above")
             xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" --rate "$PRIMARY_RATE" \
                    --output "$SECONDARY" --mode "$SECONDARY_MODE" --rate "$SECONDARY_RATE" --above "$PRIMARY"
+            ;;
+        "Below")
+            xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" --rate "$PRIMARY_RATE" \
+                   --output "$SECONDARY" --mode "$SECONDARY_MODE" --rate "$SECONDARY_RATE" --below "$PRIMARY"
             ;;
         "Right")
             xrandr --output "$PRIMARY" --primary --mode "$PRIMARY_MODE" --rate "$PRIMARY_RATE" \
