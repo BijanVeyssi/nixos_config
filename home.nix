@@ -73,9 +73,8 @@
     clang-tools
     gnumake
     neovim
-    nixfmt-classic
+    nixfmt
     stylua
-    sumneko-lua-language-server
     bear
     cmake
     pre-commit
@@ -94,13 +93,13 @@
     # Formatters and language servers
     nixpkgs-fmt
     stylua
-    sumneko-lua-language-server
+    lua-language-server
     texlab
 
     # Fonts/Theme
     nerd-fonts.hack
     iosevka
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     papirus-icon-theme
 
     # Fun

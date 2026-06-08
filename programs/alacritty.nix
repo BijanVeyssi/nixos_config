@@ -4,6 +4,11 @@
   programs.alacritty = {
     enable = true;
     settings = {
+      key_bindings = {
+        action = "SpawnNewInstance";
+        key = "Return";
+        mods = "Shift|Control";
+      };
       general = {
         live_config_reload = true;
         working_directory = "None";
