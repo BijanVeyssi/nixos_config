@@ -16,6 +16,4 @@
     };
     theme = ./tokyonight.rasi;
   };
-
-  home.packages = [ pkgs.rofi-power-menu ];
 }

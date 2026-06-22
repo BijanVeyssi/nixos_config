@@ -53,6 +53,14 @@
 
   networking.hostName = "Bijan-Nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
+
+  networking.extraHosts =
+    ''
+      10.42.42.208 	releases.system.mdi
+      10.42.42.208 	docs.system.mdi
+      10.42.42.208 	packages.system.mdi
+    '';
+
   programs.nm-applet.enable = true;
 
   # Set your time zone.
@@ -119,22 +127,12 @@
     keyMap = "us";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.displayManager.startx.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.windowManager.bspwm.enable = true;
-
-  # Fix for some x11 apps
-  programs.nix-ld = {
-    libraries = with pkgs; [
-      xorg.libX11
-      xorg.libXcursor
-      xorg.libxcb
-      xorg.libXi
-      libxkbcommon
-    ];
+  # Enable the wayland windowing system.
+  programs.hyprland = {
+    # Install the packages from nixpkgs
     enable = true;
+    # Whether to enable XWayland
+    xwayland.enable = true;
   };
 
 
@@ -255,32 +253,6 @@
         startAt = "daily";
       };
 
-      clipmenud = {
-        enable = true;
-        unitConfig = {
-          Description = "Clip Menu Daemon";
-
-          # Ask for graphical interface and the dbus socket.
-          Wants = "graphical.target";
-          After = "graphical.target";
-        };
-        serviceConfig = {
-          PermissionsStartOnly = "false";
-          Sockets = "clipmenud.socket";
-          StandardInput = "socket";
-          StandardError = "journal";
-          Environment = [
-            "CM_IGNORE_WINDOW=\"KeePass|nvim\""
-            "CM_DEBUG=1"
-          ];
-          ExecStart = "${pkgs.clipmenu}/bin/clipmenud";
-          Type = "simple";
-          Restart = "always";
-          RestartSec = "1s";
-          TimeoutSec = "180";
-        };
-        wantedBy = [ "default.target" ];
-      };
       mdmd = {
         enable = true;
         unitConfig = {
@@ -311,13 +283,6 @@
 
     };
     sockets = {
-      clipmenud = {
-        socketConfig = {
-          ListenFIFO = "%t/clipmenud/clipmenud.stdin";
-          Service = "clipmenud.service";
-        };
-      };
-
       mdmd = {
         socketConfig = {
           ListenFIFO = "%t/mdmd/mdmd.stdin";
@@ -398,9 +363,6 @@
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="0036", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
       ### Micro
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="0037", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-
-      # hid_listen
-      KERNEL=="hidraw*", MODE="0660", GROUP="plugdev", TAG+="uaccess", TAG+="udev-acl"
 
       # hid bootloaders
       ## QMK HID

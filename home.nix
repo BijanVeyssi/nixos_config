@@ -4,7 +4,6 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "bijan";
@@ -27,30 +26,29 @@
     cmatrix
     tree
     ripgrep
-    neofetch
     file
 
     # Utility
-    pamixer
-    flameshot
-    brightnessctl
-    playerctl
-    redshift
-    xclip
-    unzip
     arandr
-    man-pages
-    keepassxc
-    pandoc
-    texlive.combined.scheme-full
-    markdownlint-cli
+    brightnessctl
+    flameshot
     fzf
-    jq
-    rclone
-    nix-search-cli
-    libnotify
-    clipmenu
     home-manager
+    jq
+    keepassxc
+    libnotify
+    lnav
+    man-pages
+    markdownlint-cli
+    nix-search-cli
+    pamixer
+    pandoc
+    playerctl
+    rclone
+    texlive.combined.scheme-full
+    unzip
+    wl-clipboard
+    cliphist
 
     # Fonts
     fira
@@ -110,7 +108,7 @@
     gimp
   ];
 
-  imports = [ ./programs ];
+  imports = [ ./programs ./themes ];
 
   services.network-manager-applet.enable = true;
 
