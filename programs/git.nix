@@ -15,6 +15,11 @@
           rebase = true;
         };
       };
+      url = {
+        "git@gitlab.mobile-intra.com:" = {
+          insteadOf = "https://gitlab.mobile-intra.com/";
+        };
+      };
     };
   };
 }

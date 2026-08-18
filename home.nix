@@ -31,7 +31,6 @@
 
     # Utility
     pamixer
-    flameshot
     brightnessctl
     playerctl
     redshift

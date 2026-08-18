@@ -5,6 +5,7 @@
     ./direnv.nix
     ./dunst.nix
     ./fish.nix
+    ./flameshot.nix
     ./git.nix
     ./picom.nix
     ./polybar
