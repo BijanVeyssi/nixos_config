@@ -1,6 +1,7 @@
 {
   imports = [
     ./alacritty.nix
+    ./btop.nix
     ./direnv.nix
     ./dunst.nix
     ./fish.nix
