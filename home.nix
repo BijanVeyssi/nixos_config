@@ -27,7 +27,6 @@
     cmatrix
     tree
     ripgrep
-    neofetch
     file
 
     # Utility
@@ -51,6 +50,7 @@
     libnotify
     clipmenu
     home-manager
+    lnav
 
     # Fonts
     fira

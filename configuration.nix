@@ -53,6 +53,14 @@
 
   networking.hostName = "Bijan-Nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
+
+  networking.extraHosts =
+    ''
+      10.42.42.208 	releases.system.mdi
+      10.42.42.208 	docs.system.mdi
+      10.42.42.208 	packages.system.mdi
+    '';
+
   programs.nm-applet.enable = true;
 
   # Set your time zone.
