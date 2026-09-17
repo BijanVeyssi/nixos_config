@@ -6,7 +6,8 @@
       {
         name = "slack";
         match = {
-          class = "slack";
+          # Electron reports "Slack" under Wayland but "slack" via XWayland.
+          class = "(?i)slack";
         };
         workspace = "8";
       }

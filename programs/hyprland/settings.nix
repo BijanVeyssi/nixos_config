@@ -77,6 +77,9 @@
 
     misc = {
       force_default_wallpaper = 0;
+      # Follow activation requests, so clicking a notification or a taskbar
+      # entry switches to the workspace the window lives on.
+      focus_on_activate = true;
     };
 
     binds = {
