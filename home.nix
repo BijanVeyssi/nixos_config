@@ -44,7 +44,6 @@
     pandoc
     playerctl
     rclone
-    texlive.combined.scheme-full
     unzip
     wl-clipboard
     cliphist
