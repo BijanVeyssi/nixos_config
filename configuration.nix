@@ -11,11 +11,24 @@
       ./hardware-configuration.nix
     ];
   boot = {
+    # Workaround for NVMe controller instability: keep the drive out of deep
+    # power states and disable PCIe Active State Power Management.
+    kernelParams = [
+      "nvme_core.default_ps_max_latency_us=0"
+      "pcie_aspm=off"
+    ];
+
+    initrd.luks.devices.cryptroot = {
+      device = "/dev/disk/by-label/cryptroot";
+      preLVM = true;
+      allowDiscards = true;
+    };
+
     kernel = {
       sysctl = {
         "kernel.core_pattern" = "/var/crash/core.%t.%p";
         "kernel.panic" = 10;
-        "kernel.unknown_mni_panic" = 1;
+        "kernel.unknown_nmi_panic" = 1;
       };
     };
     loader.grub = {
@@ -23,6 +36,11 @@
       device = "nodev";
       efiSupport = true;
       enableCryptodisk = true;
+      gfxmodeEfi = "1920x1080";
+      # This firmware has no NVRAM entry for the disk, so install to the
+      # removable fallback path (\EFI\BOOT\BOOTX64.EFI) to be auto-detected.
+      # Mutually exclusive with boot.loader.efi.canTouchEfiVariables.
+      efiInstallAsRemovable = true;
     };
   };
 
@@ -49,8 +67,6 @@
     # Detects files with identical content in store and replace them with hard links to a single copy
   };
 
-  # Automatic garbage collection (user profiles)
-
   networking.hostName = "Bijan-Nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
 
@@ -61,8 +77,6 @@
       10.42.42.208 	packages.system.mdi
     '';
 
-  programs.nm-applet.enable = true;
-
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
@@ -70,52 +84,6 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-
-  # Nftables
-  networking.nftables = {
-    ruleset = ''
-      # Check out https://wiki.nftables.org/ for better documentation.
-      # Table for both IPv4 and IPv6.
-      table inet filter {
-        # Block all incoming connections traffic except SSH and "ping".
-        chain input {
-          type filter hook input priority 0;
-  
-          # accept any localhost traffic
-          iifname lo accept
-  
-          # accept traffic originated from us
-          ct state {established, related} accept
-  
-          # ICMP
-          # routers may also want: mld-listener-query, nd-router-solicit
-          ip6 nexthdr icmpv6 icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept
-          ip protocol icmp icmp type { destination-unreachable, router-advertisement, time-exceeded, parameter-problem } accept
-  
-          # allow "ping"
-          ip6 nexthdr icmpv6 icmpv6 type echo-request accept
-          ip protocol icmp icmp type echo-request accept
-  
-          # accept SSH connections (required for a server)
-          tcp dport 22 accept
-  
-          # count and drop any other traffic
-          counter drop
-        }
-  
-        # Allow all outgoing connections.
-        chain output {
-          type filter hook output priority 0;
-          accept
-        }
-  
-        chain forward {
-          type filter hook forward priority 0;
-          accept
-        }
-      }
-    '';
-  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -128,18 +96,20 @@
   };
 
   # Enable the X11 windowing system.
+  # This registers the only session entry LightDM can offer; without it the
+  # session list is empty and login fails. The session wrapper execs
+  # ~/.xsession when present, so home-manager's bspwm config still takes over.
   services.xserver.enable = true;
-  services.xserver.displayManager.startx.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.windowManager.bspwm.enable = true;
 
   # Fix for some x11 apps
   programs.nix-ld = {
     libraries = with pkgs; [
-      xorg.libX11
-      xorg.libXcursor
-      xorg.libxcb
-      xorg.libXi
+      libx11
+      libxcursor
+      libxcb
+      libxi
       libxkbcommon
     ];
     enable = true;
@@ -172,20 +142,7 @@
       enable = true;
       support32Bit = true;
     };
-  };
-  services.jack = {
-    alsa = {
-      enable = true;
-      support32Bit = true;
-    };
-    # support ALSA only programs via loopback device (supports programs like Steam)
-    loopback = {
-      enable = true;
-      # buffering parameters for dmix device to work with ALSA only semi-professional sound programs
-      #dmixConfig = ''
-      #  period_size 2048
-      #'';
-    };
+    jack.enable = true;
   };
   hardware.alsa.enablePersistence = true;
 
@@ -205,9 +162,26 @@
     extraGroups = [ "wheel" "networkmanager" "video" "docker" "jackaudio" "audio" ];
   };
 
-  security.sudo.extraConfig = ''
-    %wheel       ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/iptables,/run/current-system/sw/bin/nft,/run/current-system/sw/bin/ip
-  '';
+  # Passwordless network configuration for the Munic netns tooling. Note that
+  # `ip netns exec` runs arbitrary commands as root, so this is close to full
+  # root and is deliberately not granted to the whole wheel group.
+  security.sudo.extraRules = [{
+    users = [ "bijan" ];
+    commands = [
+      {
+        command = "/run/current-system/sw/bin/iptables";
+        options = [ "NOPASSWD" ];
+      }
+      {
+        command = "/run/current-system/sw/bin/nft";
+        options = [ "NOPASSWD" ];
+      }
+      {
+        command = "/run/current-system/sw/bin/ip";
+        options = [ "NOPASSWD" ];
+      }
+    ];
+  }];
 
   programs.fish.enable = true;
 
@@ -220,14 +194,13 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     sshpass
-    networkmanagerapplet
-    networkmanager
     firefox
     qutebrowser
     pavucontrol
     iproute2
     iptables
     nftables
+    efibootmgr
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -238,8 +211,8 @@
     enableSSHSupport = true;
   };
 
-  # i3lock
-  programs.i3lock.enable = true;
+  # PAM service used by betterlockscreen's i3lock-color (configured per-user
+  # via home-manager's services.screen-locker).
   security.pam.services.i3lock.enable = true;
 
   services.printing.enable = true;
@@ -252,87 +225,6 @@
     extraConfig = ''
       PasswordAuthentication no
     '';
-  };
-
-  # Systemd
-  systemd.user = {
-    services = {
-      nix-gc = {
-        description = "Garbage collection for user profiles";
-        script = "/run/current-system/sw/bin/nix-collect-garbage --delete-older-than 7d";
-        startAt = "daily";
-      };
-
-      clipmenud = {
-        enable = true;
-        unitConfig = {
-          Description = "Clip Menu Daemon";
-
-          # Ask for graphical interface and the dbus socket.
-          Wants = "graphical.target";
-          After = "graphical.target";
-        };
-        serviceConfig = {
-          PermissionsStartOnly = "false";
-          Sockets = "clipmenud.socket";
-          StandardInput = "socket";
-          StandardError = "journal";
-          Environment = [
-            "CM_IGNORE_WINDOW=\"KeePass|nvim\""
-            "CM_DEBUG=1"
-          ];
-          ExecStart = "${pkgs.clipmenu}/bin/clipmenud";
-          Type = "simple";
-          Restart = "always";
-          RestartSec = "1s";
-          TimeoutSec = "180";
-        };
-        wantedBy = [ "default.target" ];
-      };
-      mdmd = {
-        enable = true;
-        unitConfig = {
-          Description = "Munic Device Manager Daemon";
-
-          # Ask for graphical interface and the dbus socket.
-          Wants = "graphical.target dbus.socket mdmd.socket xdg-desktop-autostart.target";
-          After = "graphical.target dbus.socket mdmd.socket xdg-desktop-autostart.target";
-        };
-        serviceConfig = {
-          PermissionsStartOnly = "false";
-          Sockets = "mdmd.socket";
-          StandardInput = "socket";
-          StandardError = "journal";
-          Environment = [
-            "PATH=/run/wrappers/bin/:/etc/profiles/per-user/bijan/bin/:/run/current-system/sw/bin/"
-            "TERM=alacritty"
-          ];
-          ExecStart = "/home/bijan/mdmd/target/debug/mdmd";
-          Type = "simple";
-          RemainAfterExit = "false";
-          Restart = "always";
-          RestartSec = "1s";
-          TimeoutSec = "180";
-        };
-        wantedBy = [ "default.target" ];
-      };
-
-    };
-    sockets = {
-      clipmenud = {
-        socketConfig = {
-          ListenFIFO = "%t/clipmenud/clipmenud.stdin";
-          Service = "clipmenud.service";
-        };
-      };
-
-      mdmd = {
-        socketConfig = {
-          ListenFIFO = "%t/mdmd/mdmd.stdin";
-          Service = "mdmd.service";
-        };
-      };
-    };
   };
 
   # Udev rules
@@ -450,6 +342,4 @@
       allowUnfree = true;
 
     };
-
-  # Enable jack audio
 }

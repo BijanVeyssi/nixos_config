@@ -15,18 +15,6 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  boot.kernelParams = [
-    "nvme_core.default_ps_max_latency_us=0"
-    "pcie_aspm=off"
-  ];
-
-  boot.loader.grub = {
-    enable = true;
-    device = "nodev";
-    efiSupport = true;
-    gfxmodeEfi = "1920x1080";
-  };
-
   fileSystems."/" =
     {
       device = "/dev/disk/by-uuid/8ae160a8-523e-419e-bfc1-6e51ed30e5bc";
@@ -49,12 +37,6 @@
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp0s31f6.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
-
-  boot.initrd.luks.devices.cryptroot = {
-    device = "/dev/disk/by-label/cryptroot";
-    preLVM = true;
-    allowDiscards = true;
-  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
