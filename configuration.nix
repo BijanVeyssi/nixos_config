@@ -11,11 +11,24 @@
       ./hardware-configuration.nix
     ];
   boot = {
+    # Workaround for NVMe controller instability: keep the drive out of deep
+    # power states and disable PCIe Active State Power Management.
+    kernelParams = [
+      "nvme_core.default_ps_max_latency_us=0"
+      "pcie_aspm=off"
+    ];
+
+    initrd.luks.devices.cryptroot = {
+      device = "/dev/disk/by-label/cryptroot";
+      preLVM = true;
+      allowDiscards = true;
+    };
+
     kernel = {
       sysctl = {
         "kernel.core_pattern" = "/var/crash/core.%t.%p";
         "kernel.panic" = 10;
-        "kernel.unknown_mni_panic" = 1;
+        "kernel.unknown_nmi_panic" = 1;
       };
     };
     loader.grub = {
@@ -23,6 +36,11 @@
       device = "nodev";
       efiSupport = true;
       enableCryptodisk = true;
+      gfxmodeEfi = "1920x1080";
+      # This firmware has no NVRAM entry for the disk, so install to the
+      # removable fallback path (\EFI\BOOT\BOOTX64.EFI) to be auto-detected.
+      # Mutually exclusive with boot.loader.efi.canTouchEfiVariables.
+      efiInstallAsRemovable = true;
     };
   };
 
@@ -49,8 +67,6 @@
     # Detects files with identical content in store and replace them with hard links to a single copy
   };
 
-  # Automatic garbage collection (user profiles)
-
   networking.hostName = "Bijan-Nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
 
@@ -61,8 +77,6 @@
       10.42.42.208 	packages.system.mdi
     '';
 
-  programs.nm-applet.enable = true;
-
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
@@ -70,52 +84,6 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-
-  # Nftables
-  networking.nftables = {
-    ruleset = ''
-      # Check out https://wiki.nftables.org/ for better documentation.
-      # Table for both IPv4 and IPv6.
-      table inet filter {
-        # Block all incoming connections traffic except SSH and "ping".
-        chain input {
-          type filter hook input priority 0;
-  
-          # accept any localhost traffic
-          iifname lo accept
-  
-          # accept traffic originated from us
-          ct state {established, related} accept
-  
-          # ICMP
-          # routers may also want: mld-listener-query, nd-router-solicit
-          ip6 nexthdr icmpv6 icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept
-          ip protocol icmp icmp type { destination-unreachable, router-advertisement, time-exceeded, parameter-problem } accept
-  
-          # allow "ping"
-          ip6 nexthdr icmpv6 icmpv6 type echo-request accept
-          ip protocol icmp icmp type echo-request accept
-  
-          # accept SSH connections (required for a server)
-          tcp dport 22 accept
-  
-          # count and drop any other traffic
-          counter drop
-        }
-  
-        # Allow all outgoing connections.
-        chain output {
-          type filter hook output priority 0;
-          accept
-        }
-  
-        chain forward {
-          type filter hook forward priority 0;
-          accept
-        }
-      }
-    '';
-  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -162,20 +130,7 @@
       enable = true;
       support32Bit = true;
     };
-  };
-  services.jack = {
-    alsa = {
-      enable = true;
-      support32Bit = true;
-    };
-    # support ALSA only programs via loopback device (supports programs like Steam)
-    loopback = {
-      enable = true;
-      # buffering parameters for dmix device to work with ALSA only semi-professional sound programs
-      #dmixConfig = ''
-      #  period_size 2048
-      #'';
-    };
+    jack.enable = true;
   };
   hardware.alsa.enablePersistence = true;
 
@@ -195,9 +150,26 @@
     extraGroups = [ "wheel" "networkmanager" "video" "docker" "jackaudio" "audio" ];
   };
 
-  security.sudo.extraConfig = ''
-    %wheel       ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/iptables,/run/current-system/sw/bin/nft,/run/current-system/sw/bin/ip
-  '';
+  # Passwordless network configuration for the Munic netns tooling. Note that
+  # `ip netns exec` runs arbitrary commands as root, so this is close to full
+  # root and is deliberately not granted to the whole wheel group.
+  security.sudo.extraRules = [{
+    users = [ "bijan" ];
+    commands = [
+      {
+        command = "/run/current-system/sw/bin/iptables";
+        options = [ "NOPASSWD" ];
+      }
+      {
+        command = "/run/current-system/sw/bin/nft";
+        options = [ "NOPASSWD" ];
+      }
+      {
+        command = "/run/current-system/sw/bin/ip";
+        options = [ "NOPASSWD" ];
+      }
+    ];
+  }];
 
   programs.fish.enable = true;
 
@@ -210,14 +182,13 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     sshpass
-    networkmanagerapplet
-    networkmanager
     firefox
     qutebrowser
     pavucontrol
     iproute2
     iptables
     nftables
+    efibootmgr
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -228,8 +199,8 @@
     enableSSHSupport = true;
   };
 
-  # i3lock
-  programs.i3lock.enable = true;
+  # PAM service used by betterlockscreen's i3lock-color (configured per-user
+  # via home-manager's services.screen-locker).
   security.pam.services.i3lock.enable = true;
 
   services.printing.enable = true;
@@ -292,95 +263,6 @@
     };
   };
 
-  # Udev rules
-  services.udev = {
-    extraRules = ''
-      # Atmel DFU
-      ### ATmega16U2
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2fef", TAG+="uaccess"
-      ### ATmega32U2
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ff0", TAG+="uaccess"
-      ### ATmega16U4
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ff3", TAG+="uaccess"
-      ### ATmega32U4
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ff4", TAG+="uaccess"
-      ### AT90USB64
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ff9", TAG+="uaccess"
-      ### AT90USB162
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ffa", TAG+="uaccess"
-      ### AT90USB128
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ffb", TAG+="uaccess"
-
-      # Input Club
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1c11", ATTRS{idProduct}=="b007", TAG+="uaccess"
-
-      # STM32duino
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1eaf", ATTRS{idProduct}=="0003", TAG+="uaccess"
-      # STM32 DFU
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", TAG+="uaccess"
-
-      # BootloadHID
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", TAG+="uaccess"
-
-      # USBAspLoader
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05dc", TAG+="uaccess"
-
-      # USBtinyISP
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1782", ATTRS{idProduct}=="0c9f", TAG+="uaccess"
-
-      # ModemManager should ignore the following devices
-      # Atmel SAM-BA (Massdrop)
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6124", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-
-      # Caterina (Pro Micro)
-      ## pid.codes shared PID
-      ### Keyboardio Atreus 2 Bootloader
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="2302", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ## Spark Fun Electronics
-      ### Pro Micro 3V3/8MHz
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b4f", ATTRS{idProduct}=="9203", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ### Pro Micro 5V/16MHz
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b4f", ATTRS{idProduct}=="9205", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ### LilyPad 3V3/8MHz (and some Pro Micro clones)
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b4f", ATTRS{idProduct}=="9207", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ## Pololu Electronics
-      ### A-Star 32U4
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1ffb", ATTRS{idProduct}=="0101", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ## Arduino SA
-      ### Leonardo
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0036", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ### Micro
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0037", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ## Adafruit Industries LLC
-      ### Feather 32U4
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="000c", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ### ItsyBitsy 32U4 3V3/8MHz
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="000d", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ### ItsyBitsy 32U4 5V/16MHz
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="000e", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ## dog hunter AG
-      ### Leonardo
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="0036", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ### Micro
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="0037", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
-
-      # hid bootloaders
-      ## QMK HID
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2067", TAG+="uaccess"
-      ## PJRC's HalfKay
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="0478", TAG+="uaccess"
-
-      # APM32 DFU
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="314b", ATTRS{idProduct}=="0106", TAG+="uaccess"
-
-      # GD32V DFU
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="28e9", ATTRS{idProduct}=="0189", TAG+="uaccess"
-
-      # WB32 DFU
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="342d", ATTRS{idProduct}=="dfa0", TAG+="uaccess"
-    '';
-  };
-
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
@@ -404,6 +286,4 @@
       allowUnfree = true;
 
     };
-
-  # Enable jack audio
 }
