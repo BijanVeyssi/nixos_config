@@ -5,8 +5,10 @@
     "$mod" = "SUPER";
 
     bind = [
-      # Close active window
+      # Close active window.
       "$mod, Q, killactive"
+      # Kill active window
+      "$mod SHIFT, Q, forcekillactive"
 
       # Select workspace
       "$mod, 1,         workspace, 1"
