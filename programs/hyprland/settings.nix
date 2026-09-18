@@ -7,7 +7,7 @@
 
     monitor = [
       "$MONITOR_L,preferred,auto-left,1"
-      "$MONITOR_R,preferred,auto,1.33"
+      "$MONITOR_R,preferred,auto,1"
     ];
 
     workspace = [
