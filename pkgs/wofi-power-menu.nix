@@ -7,7 +7,7 @@ pkgs.writeShellApplication {
   ];
   text = ''
     op=$(
-    echo -e "Hibernate\n⏻  Poweroff\n  Reboot\n  Suspend\n  Lock\n󰈆  Logout" \
+    echo -e "󰒲 Hibernate\n⏻  Poweroff\n  Reboot\n  Suspend\n  Lock\n󰈆  Logout" \
       | wofi --dmenu \
       | tr -s ' ' \
       | tr '[:upper:]' '[:lower:]' \
