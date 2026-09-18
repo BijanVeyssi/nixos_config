@@ -106,12 +106,6 @@
 
   services.network-manager-applet.enable = true;
 
-  services.clipmenu = {
-    enable = true;
-    launcher = "rofi";
-  };
-  systemd.user.services.clipmenu.Service.Environment = [ "CM_IGNORE_WINDOW=KeePass|nvim" ];
-
   systemd.user.services.mdmd = {
     Unit = {
       Description = "Munic Device Manager Daemon";
