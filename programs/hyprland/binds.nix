@@ -92,6 +92,9 @@
 
       # Clipboard
       "$mod, V, exec, cliphist list | rofi -modi clipboard:/etc/profiles/per-user/bijan/bin/cliphist-rofi -show clipboard -show-icons"
+
+      # Screenshot a selected area to the clipboard
+      "$mod SHIFT, S, exec, grimblast --freeze copy area"
     ];
 
     binde = [

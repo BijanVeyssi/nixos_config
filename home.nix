@@ -47,6 +47,7 @@
     unzip
     wl-clipboard
     cliphist
+    grimblast
 
     # Fonts
     fira
