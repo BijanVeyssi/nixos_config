@@ -28,6 +28,16 @@
     '';
   };
 
+  # This panel's HDMI link drops every ~8s under aquamarine's atomic
+  # modesetting while staying stable under legacy KMS on the same cable. Legacy
+  # KMS has no hotspot-aware cursor ioctl, so pair it with software cursors or
+  # the text cursor selects ~11px away from where it points.
+  environment.sessionVariables.AQ_DRM_NO_ATOMIC = "1";
+
+  # regreet runs under cage, which is wlroots rather than aquamarine, so it
+  # needs the wlroots spelling of the flag above or the greeter flaps too.
+  systemd.services.greetd.environment.WLR_DRM_NO_ATOMIC = "1";
+
   boot = {
     # Workaround for NVMe controller instability: keep the drive out of deep
     # power states and disable PCIe Active State Power Management.

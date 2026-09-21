@@ -21,6 +21,10 @@
   ];
 
   wayland.windowManager.hyprland.settings = {
+    # The legacy KMS this host is pinned to cannot pass a hotspot to the
+    # hardware cursor plane, so composite the cursor in software instead.
+    cursor.no_hardware_cursors = true;
+
     # The external screen sits to the left of the built-in panel.
     "$MONITOR_L" = "HDMI-A-1";
     "$MONITOR_R" = "eDP-1";
