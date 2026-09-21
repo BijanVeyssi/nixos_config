@@ -48,7 +48,6 @@ in
   };
 
   imports = [
-    ./fonts.nix
     ./wallpaper.nix
     ./gtk.nix
   ];
