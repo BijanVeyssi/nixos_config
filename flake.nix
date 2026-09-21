@@ -45,6 +45,10 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./nixos/munic-notebook ];
         };
+        Bij-Bertha = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./nixos/Bij-Bertha ];
+        };
       };
 
       # Standalone home-manager configurations entrypoint
@@ -54,6 +58,11 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home-manager/bijan/munic-notebook.nix ];
+        };
+        "bijan@Bij-Bertha" = home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home-manager/bijan/Bij-Bertha.nix ];
         };
       };
     };
