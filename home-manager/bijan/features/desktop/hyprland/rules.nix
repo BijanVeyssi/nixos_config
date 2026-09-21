@@ -4,14 +4,6 @@
   wayland.windowManager.hyprland.settings = {
     windowrule = [
       {
-        name = "slack";
-        match = {
-          # Electron reports "Slack" under Wayland but "slack" via XWayland.
-          class = "(?i)slack";
-        };
-        workspace = "8";
-      }
-      {
         name = "discord";
         match = {
           class = "discord";

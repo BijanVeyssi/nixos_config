@@ -36,9 +36,9 @@
       "pcie_aspm=off"
     ];
 
+    # nvme0n1p2, holding the LVM PV that vg-root and vg-swap live on.
     initrd.luks.devices.cryptroot = {
-      device = "/dev/disk/by-label/cryptroot";
-      preLVM = true;
+      device = "/dev/disk/by-uuid/28d6d42e-3109-4321-9d1a-a59fbac255b3";
       allowDiscards = true;
     };
 

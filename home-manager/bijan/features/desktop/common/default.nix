@@ -23,7 +23,6 @@
     libnotify
     lxappearance
     papirus-icon-theme
-    slack
     steam
     wl-clipboard
     zathura

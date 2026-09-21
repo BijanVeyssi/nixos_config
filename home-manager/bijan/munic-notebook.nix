@@ -17,7 +17,25 @@
     can-utils
     daemontools
     icecream
+    slack
   ];
+
+  # Slack is a work tool, so its Hyprland wiring lives with the package rather
+  # than in the shared desktop features.
+  wayland.windowManager.hyprland.settings = {
+    exec-once = [ "slack" ];
+
+    windowrule = [
+      {
+        name = "slack";
+        match = {
+          # Electron reports "Slack" under Wayland but "slack" via XWayland.
+          class = "(?i)slack";
+        };
+        workspace = "8";
+      }
+    ];
+  };
 
   systemd.user.services.mdmd = {
     Unit = {

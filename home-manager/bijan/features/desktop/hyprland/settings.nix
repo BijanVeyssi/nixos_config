@@ -91,7 +91,6 @@
       "swaybg -m fill -i ~/.config/nixos_config/background.jpg"
       "systemctl --user restart hypridle.service"
       "exec wl-paste --type text --watch cliphist store"
-      "slack"
       "discord"
       "waybar"
       "keepassxc"
