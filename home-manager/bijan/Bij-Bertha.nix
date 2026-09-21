@@ -13,6 +13,11 @@
   ];
 
   wayland.windowManager.hyprland.settings = {
+    # The hardware cursor plane misplaces the pointer hotspot here: the text
+    # cursor selects from its top-left corner rather than its centre, and the
+    # pointer vanishes whenever it stops moving. Composite it in software.
+    cursor.no_hardware_cursors = true;
+
     # The external screen sits to the left of the built-in panel. The shared
     # hyprland feature maps workspaces onto these two names.
     "$MONITOR_L" = "DP-5";
