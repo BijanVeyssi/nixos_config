@@ -28,6 +28,7 @@
     dig
     efibootmgr
     git
+    sbctl
     iproute2
     iptables
     nftables

@@ -29,45 +29,18 @@
       "kernel.unknown_nmi_panic" = 1;
     };
 
-    loader.grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      enableCryptodisk = true;
-      gfxmodeEfi = "1920x1080";
-      # This firmware has no NVRAM entry for the disk, so install to the
-      # removable fallback path (\EFI\BOOT\BOOTX64.EFI) to be auto-detected.
-      # Mutually exclusive with boot.loader.efi.canTouchEfiVariables.
-      efiInstallAsRemovable = true;
+    loader = {
+      limine = {
+        secureBoot.enable = true;
+        efiSupport = true;
+        enable = true;
+      };
     };
   };
 
-  # Passwordless network configuration for the Munic netns tooling. Note that
-  # `ip netns exec` runs arbitrary commands as root, so this is close to full
-  # root and is deliberately not granted to the whole wheel group.
-  security.sudo.extraRules = [{
-    users = [ "bijan" ];
-    commands = [
-      {
-        command = "/run/current-system/sw/bin/iptables";
-        options = [ "NOPASSWD" ];
-      }
-      {
-        command = "/run/current-system/sw/bin/nft";
-        options = [ "NOPASSWD" ];
-      }
-      {
-        command = "/run/current-system/sw/bin/ip";
-        options = [ "NOPASSWD" ];
-      }
-    ];
-  }];
-
-  # mdmd itself is a per-user service and lives in
-  # home-manager/bijan/munic-notebook.nix.
   systemd.user.services.nix-gc = {
     description = "Garbage collection for user profiles";
-    script = "/run/current-system/sw/bin/nix-collect-garbage --delete-older-than 7d";
+    script = "/run/current-system/sw/bin/nix-collect-garbage --delete-older-than 21d";
     startAt = "daily";
   };
 
