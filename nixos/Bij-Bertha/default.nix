@@ -13,6 +13,7 @@
     ../common/optional/gnupg.nix
     ../common/optional/hyprland.nix
     ../common/optional/input.nix
+    ../common/optional/nvidia.nix
     ../common/optional/openssh.nix
     ../common/optional/pipewire.nix
     ../common/optional/printing.nix
