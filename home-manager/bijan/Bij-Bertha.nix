@@ -50,6 +50,12 @@
       "19 ,monitor:$MONITOR_R,persistent:true,default:true"
       "20 ,monitor:$MONITOR_R,persistent:true,default:true"
     ];
+
+    bindl = [
+      ''
+        $mod ALT, L, exec, pkill pw-loopback || pw-loopback --name=mono-to-stereo --capture-props='{ "node.target": "alsa_input.usb-Razer_Razer_ManO_War-00.mono-fallback", "audio.position": ["MONO"] }'
+      ''
+    ];
   };
 
   programs.git = {
