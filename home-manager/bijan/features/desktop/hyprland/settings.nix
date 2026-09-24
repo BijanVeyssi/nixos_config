@@ -63,6 +63,7 @@
       "discord"
       "waybar"
       "keepassxc"
+      "firefox"
     ];
 
     "debug.disable_time" =
