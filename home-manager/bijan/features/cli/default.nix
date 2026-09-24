@@ -5,7 +5,6 @@
     ./btop.nix
     ./direnv.nix
     ./fish.nix
-    ./git.nix
     ./python.nix
     ./starship.nix
   ];
@@ -32,6 +31,6 @@
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    BROWSER = "qutebrowser";
+    BROWSER = "firefox";
   };
 }

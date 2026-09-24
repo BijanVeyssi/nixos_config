@@ -52,4 +52,20 @@
     ];
   };
 
+  programs.git = {
+    enable = true;
+    settings = {
+      user.email = "bijan@veyssi.com";
+      user.name = "Bijan VEYSSI";
+      signing = {
+        signByDefault = true;
+        key = "1266060BB6B7E2CC734DE81407413967E61B8129";
+      };
+      extraConfig = {
+        pull = {
+          rebase = true;
+        };
+      };
+    };
+  };
 }
