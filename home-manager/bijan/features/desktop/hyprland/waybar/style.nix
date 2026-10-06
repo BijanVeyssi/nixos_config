@@ -71,7 +71,7 @@ colors:
     color: #${colors.green};
   }
 
-  #custom-kblayout {
+  #language {
     margin: 0;
     background: none;
     color: #${colors.fg_dark}

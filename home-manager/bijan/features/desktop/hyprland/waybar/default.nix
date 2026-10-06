@@ -19,7 +19,7 @@
             "mpris"
           ];
           modules-right = [
-            "custom/kblayout"
+            "hyprland/language"
             "clock"
             "wireplumber"
             "backlight"

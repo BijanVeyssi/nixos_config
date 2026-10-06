@@ -34,10 +34,8 @@
     on-click-right = "hyprctl dispatch workspace 10";
   };
 
-  "custom/kblayout" = {
-    exec =
-      ''[ "$(hyprctl devices | grep 'US, intl')" ] && echo us_intl || echo us'';
-    interval = 1;
+  "hyprland/language" = {
+    format = "{short} {variant}";
     tooltip = false;
   };
 
