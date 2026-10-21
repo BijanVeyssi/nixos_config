@@ -39,6 +39,8 @@
   systemd.services.greetd.environment.WLR_DRM_NO_ATOMIC = "1";
 
   boot = {
+    binfmt.emulatedSystems = [ "armv7l-linux" ];
+
     # Workaround for NVMe controller instability: keep the drive out of deep
     # power states and disable PCIe Active State Power Management.
     kernelParams = [
