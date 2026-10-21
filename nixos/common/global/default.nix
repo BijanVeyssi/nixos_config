@@ -19,6 +19,11 @@
     extraSpecialArgs = { inherit inputs outputs; };
   };
 
+  security.pki.caCertificateBlacklist = [
+    "Comodo AAA Services root"
+    "emSign ECC Root CA - G3"
+  ];
+
   nixpkgs.overlays = builtins.attrValues outputs.overlays;
 
   networking.networkmanager.enable = true;
