@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -28,15 +28,61 @@
     '';
   };
 
-  # This panel's HDMI link drops every ~8s under aquamarine's atomic
-  # modesetting while staying stable under legacy KMS on the same cable. Legacy
-  # KMS has no hotspot-aware cursor ioctl, so pair it with software cursors or
-  # the text cursor selects ~11px away from where it points.
-  environment.sessionVariables.AQ_DRM_NO_ATOMIC = "1";
+  # The 27E1QA on HDMI re-asserts hotplug by itself every ~8s, dropping the
+  # connector for ~2s each time, which tears the output down and back up until
+  # the screen visibly flickers. The kernel logs nothing and the same
+  # compositor is stable on the tower, so pin the connector's state rather than
+  # honouring the monitor.
+  #
+  # Pinning it is what makes unplugging hard: a forced connector is never
+  # re-detected, so both its status and its EDID keep describing the monitor
+  # with the cable out, and Hyprland holds a phantom HDMI-A-1 that the
+  # workspace rules stay bound to. So hand the connector back to auto mode on
+  # every drm event and only pin it again once a probe confirms the 27E1QA is
+  # really there. Writing status emits another drm event, hence the mute window
+  # that drops the echo of our own pin.
+  systemd.services.hdmi-hpd-force = {
+    description = "Pin the HDMI connector against the 27E1QA's spurious hotplug";
+    # Cable actions arrive as bursts of drm events, well past the default rate
+    # limit, and a refused start would leave the connector unpinned.
+    startLimitIntervalSec = 0;
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "hdmi-hpd-force" ''
+        set -eu
 
-  # regreet runs under cage, which is wlroots rather than aquamarine, so it
-  # needs the wlroots spelling of the flag above or the greeter flaps too.
-  systemd.services.greetd.environment.WLR_DRM_NO_ATOMIC = "1";
+        conn=$(echo /sys/class/drm/card*-HDMI-A-1)
+        [ -w "$conn/status" ] || exit 0
+
+        state=/run/hdmi-hpd-force.state
+        mute=/run/hdmi-hpd-force.mute
+
+        if [ "$(cat "$state" 2>/dev/null || echo detect)" = on ]; then
+          if [ -e "$mute" ] && [ "$(( $(date +%s) - $(stat -c %Y "$mute") ))" -lt 8 ]; then
+            exit 0
+          fi
+          echo detect > "$conn/status"
+          echo detect > "$state"
+        fi
+
+        # Let the blip the monitor asserts on its own settle before believing
+        # the probe.
+        sleep 3
+
+        if grep -aqs 27E1QA "$conn/edid"; then
+          : > "$mute"
+          echo on > "$conn/status"
+          echo on > "$state"
+        fi
+      '';
+    };
+  };
+
+  # `start` rather than `restart`: an event landing mid-probe must not kill the
+  # run that is about to pin the connector.
+  services.udev.extraRules = ''
+    ACTION=="add|change", SUBSYSTEM=="drm", KERNEL=="card[0-9]*", RUN+="${pkgs.systemd}/bin/systemctl --no-block start hdmi-hpd-force.service"
+  '';
 
   boot = {
     binfmt.emulatedSystems = [ "armv7l-linux" ];
