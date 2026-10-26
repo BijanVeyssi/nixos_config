@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -28,15 +28,38 @@
     '';
   };
 
-  # This panel's HDMI link drops every ~8s under aquamarine's atomic
-  # modesetting while staying stable under legacy KMS on the same cable. Legacy
-  # KMS has no hotspot-aware cursor ioctl, so pair it with software cursors or
-  # the text cursor selects ~11px away from where it points.
-  environment.sessionVariables.AQ_DRM_NO_ATOMIC = "1";
+  # The 27E1QA on HDMI re-asserts hotplug by itself every ~8s, dropping the
+  # connector for ~2s each time, which tears the output down and back up until
+  # the screen visibly flickers. The kernel logs nothing and the same
+  # compositor is stable on the tower, so pin the connector's state rather than
+  # honouring the monitor. The debounce is what keeps unplugging usable: a real
+  # unplug leaves EDID gone, a spurious blip has it back within seconds.
+  systemd.services.hdmi-hpd-force = {
+    description = "Pin the HDMI connector against the 27E1QA's spurious hotplug";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "hdmi-hpd-force" ''
+        set -eu
 
-  # regreet runs under cage, which is wlroots rather than aquamarine, so it
-  # needs the wlroots spelling of the flag above or the greeter flaps too.
-  systemd.services.greetd.environment.WLR_DRM_NO_ATOMIC = "1";
+        conn=$(echo /sys/class/drm/card*-HDMI-A-1)
+        [ -w "$conn/status" ] || exit 0
+
+        sleep 3
+
+        if grep -aqs 27E1QA "$conn/edid"; then want=on; else want=detect; fi
+
+        state=/run/hdmi-hpd-force.state
+        if [ "$(cat "$state" 2>/dev/null || echo detect)" != "$want" ]; then
+          echo "$want" > "$conn/status"
+          echo "$want" > "$state"
+        fi
+      '';
+    };
+  };
+
+  services.udev.extraRules = ''
+    ACTION=="add|change", SUBSYSTEM=="drm", KERNEL=="card[0-9]*", RUN+="${pkgs.systemd}/bin/systemctl --no-block restart hdmi-hpd-force.service"
+  '';
 
   boot = {
     binfmt.emulatedSystems = [ "armv7l-linux" ];
