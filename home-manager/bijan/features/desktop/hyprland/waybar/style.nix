@@ -81,7 +81,7 @@ colors:
     color: #${colors.red};
   }
 
-  #wireplumber {
+  #pulseaudio {
     color: #${colors.yellow};
   }
 

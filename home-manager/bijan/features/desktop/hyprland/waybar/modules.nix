@@ -60,7 +60,7 @@
     };
   };
 
-  wireplumber = {
+  pulseaudio = {
     format = "{icon}  {volume}%";
     format-muted = "  {volume}%";
     format-icons = [ "" "" "" ];

@@ -24,6 +24,5 @@
   environment.systemPackages = with pkgs; [
     firefox
     pavucontrol
-    qutebrowser
   ];
 }

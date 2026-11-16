@@ -21,7 +21,7 @@
           modules-right = [
             "hyprland/language"
             "clock"
-            "wireplumber"
+            "pulseaudio"
             "backlight"
             "battery"
             "tray"
